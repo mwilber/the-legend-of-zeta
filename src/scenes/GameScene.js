@@ -38,7 +38,7 @@ export class GameScene extends Phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         // });
 
-        this.player = this.physics.add.sprite(450, 1400, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
+        this.player = this.physics.add.sprite(450, 1200, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
 
         this.physics.add.collider(this.player, worldLayer);
 
