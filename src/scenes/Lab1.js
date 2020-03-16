@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 
-export class GameScene extends Phaser.Scene {
+export class Lab1 extends Phaser.Scene {
     constructor() {
 		super({
-            key: 'GameScene'
+            key: 'Lab1'
         });
 
         this.controls = null; // User controls
@@ -11,40 +11,41 @@ export class GameScene extends Phaser.Scene {
         this.player = null;
 
         this.spawnPoint = null;
-    }
+	}
     
     init(data){
         this.spawnPoint = {
-            x:450,
-            y:1200
+            x:400,
+            y:700
         }
         if(data.hasOwnProperty('origin')){
-            if(data.origin === 'Lab1') this.spawnPoint = {
-                x:688,
-                y:236
+            if(data.origin === 'Lab2') this.spawnPoint = {
+                x:400,
+                y:75
             }
         }
     }
 
 	preload() {
-        this.load.image("tiles", "assets/images/Area-51.png");
-        this.load.tilemapTiledJSON("map", "assets/tilemaps/area-51.json");
+        this.load.image("seckrit-lab-tiles", "assets/images/scifitiles-sheet.png");
+        this.load.tilemapTiledJSON("lab-1", "assets/tilemaps/lab-1.json");
 
         this.load.atlas("atlas", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
     }
 
     create() {
-        const map = this.make.tilemap({ key: "map" });
+        const map = this.make.tilemap({ key: "lab-1" });
 
         // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
         // Phaser's cache (i.e. the name you used in preload)
-        const tileset = map.addTilesetImage("Area-51", "tiles");
+        const tileset = map.addTilesetImage("seckrit-lab", "seckrit-lab-tiles");
 
         // Parameters: layer name (or index) from Tiled, tileset, x, y
         const belowLayer = map.createStaticLayer("Background", tileset, 0, 0);
         const worldLayer = map.createStaticLayer("Interactive", tileset, 0, 0);
         
 
+        belowLayer.setCollisionByProperty({ collide: true });
         worldLayer.setCollisionByProperty({ collide: true });
         const debugGraphics = this.add.graphics().setAlpha(0.75);
         // worldLayer.renderDebug(debugGraphics, {
@@ -55,9 +56,10 @@ export class GameScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
 
+        this.physics.add.collider(this.player, belowLayer);
         this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
-        const aboveLayer = map.createStaticLayer("Rooftops", tileset, 0, 0);
+        const aboveLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
 
         // Phaser supports multiple cameras, but you can access the default camera like this:
         const camera = this.cameras.main;
@@ -153,11 +155,13 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
-
     HitInteractiveLayer(player, target){
         if(target.properties 
-            && target.properties.portal 
-            && target.properties.portal === 'lab') this.scene.start('Lab1', {origin:'Area51'});
+            && target.properties.portal ){
+
+                if(target.properties.portal === 'ascend') this.scene.start('GameScene', {origin: 'Lab1'});
+                else if(target.properties.portal === 'descend') this.scene.start('Lab2', {origin: 'Lab1'});
+            }
         
     }
     

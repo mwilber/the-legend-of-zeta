@@ -18,6 +18,8 @@ import '../styles/main.scss';
 
 import 'phaser';
 import { GameScene } from './scenes/GameScene';
+import { Lab1 } from './scenes/Lab1';
+import { Lab2 } from './scenes/Lab2';
 
 const gameConfig = {
     type: Phaser.AUTO,
@@ -35,7 +37,9 @@ const gameConfig = {
         }
     },
     scene: [
-        GameScene
+        GameScene,
+        Lab1,
+        Lab2,
     ]
 };
 

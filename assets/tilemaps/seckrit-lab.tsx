@@ -7,12 +7,14 @@
  </terraintypes>
  <tile id="0">
   <properties>
-   <property name="collide" type="bool" value="false"/>
+   <property name="collide" type="bool" value="true"/>
+   <property name="portal" value="ascend"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
-   <property name="collide" type="bool" value="false"/>
+   <property name="collide" type="bool" value="true"/>
+   <property name="portal" value="descend"/>
   </properties>
  </tile>
  <tile id="2">
@@ -78,11 +80,13 @@
  <tile id="14">
   <properties>
    <property name="collide" type="bool" value="false"/>
+   <property name="portal" value=""/>
   </properties>
  </tile>
  <tile id="15">
   <properties>
    <property name="collide" type="bool" value="false"/>
+   <property name="portal" value=""/>
   </properties>
  </tile>
  <tile id="16">
