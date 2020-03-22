@@ -5,9 +5,6 @@ The Legend of Zeta is a [Phaser3](http://phaser.io) clone of the classic nintend
 
 Built with the [gz-webpack-boilerplate](https://github.com/mwilber/gz-webpack-boilerplate)!
 
-# ![GreenZeta Logo](https://www.greenzeta.com/android-icon-72x72.png) gz-webpack-boilerplate
-## Webpack 4 Boilerplate
-
 ## Requirements
 All you need is <b>node.js</b> pre-installed and you’re good to go.
 
