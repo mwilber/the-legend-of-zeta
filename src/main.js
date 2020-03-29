@@ -20,27 +20,33 @@ import 'phaser';
 import { GameScene } from './scenes/GameScene';
 import { Lab1 } from './scenes/Lab1';
 import { Lab2 } from './scenes/Lab2';
+//import { GzDialog } from './plugins/gzDialog';
 
 const gameConfig = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    parent: 'phaser-game',
-    dom: {
-        createContainer: true
-    },
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            debug: false
-        }
-    },
-    scene: [
-        GameScene,
-        Lab1,
-        Lab2,
-    ]
+	type: Phaser.AUTO,
+	width: 800,
+	height: 600,
+	parent: 'phaser-game',
+	dom: {
+		createContainer: true
+	},
+	physics: {
+		default: 'arcade',
+		arcade: {
+			gravity: { y: 0 },
+			debug: false
+		}
+	},
+	scene: [
+		GameScene,
+		Lab1,
+		Lab2,
+	]
 };
 
 new Phaser.Game(gameConfig);
+
+// // Register this plugin with the PluginManager
+// GzDialog.register = function (PluginManager) {
+// 	GzDialog.register('GzDialog', GzDialog, 'dialogModal');
+// };
