@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { GzDialog } from '../plugins/GzDialog';
+import { Script } from '../script';
 
 export class GameScene extends Phaser.Scene {
 	constructor() {
@@ -60,6 +61,7 @@ export class GameScene extends Phaser.Scene {
 		// });
 
 		this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
+		this.player.name = 'zeta';
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
@@ -198,7 +200,7 @@ export class GameScene extends Phaser.Scene {
 	HitScript(player, target){
 		//console.log('target', target.properties);
 		if(target.properties.name && !this.gzDialog.visible)
-			this.gzDialog.setText(target.properties.name, true);
+			this.gzDialog.setText(Script[player.name][target.properties.name], true);
 	}
 	
 }

@@ -8,7 +8,7 @@
          "name":"Background",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -32,7 +32,7 @@
          "name":"Rooftops",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -75,6 +75,23 @@
                  "width":36,
                  "x":509.333333333333,
                  "y":1054
+                }, 
+                {
+                 "height":130.666666666667,
+                 "id":3,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"labsign"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":162.666666666667,
+                 "x":574.666666666667,
+                 "y":30.6666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -83,7 +100,7 @@
          "y":0
         }],
  "nextlayerid":15,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
