@@ -34,6 +34,7 @@ export class GameScene extends Phaser.Scene {
 		this.load.tilemapTiledJSON("map", "assets/tilemaps/area-51.json");
 
 		this.load.atlas("atlas", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
+		this.load.image("saucer", "assets/images/saucer.png");
 	}
 
 	create() {
@@ -46,7 +47,9 @@ export class GameScene extends Phaser.Scene {
 		// Parameters: layer name (or index) from Tiled, tileset, x, y
 		const belowLayer = map.createStaticLayer("Background", tileset, 0, 0);
 		const worldLayer = map.createStaticLayer("Interactive", tileset, 0, 0);
-		
+		const scriptLayer = map.createStaticLayer("Script", tileset, 0, 0);
+
+		const objects = map.getObjectLayer('Script'); //find the object layer in the tilemap named 'objects'
 
 		worldLayer.setCollisionByProperty({ collide: true });
 		const debugGraphics = this.add.graphics().setAlpha(0.75);
@@ -59,6 +62,24 @@ export class GameScene extends Phaser.Scene {
 		this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
+
+		objects.objects.forEach(
+			(object) => {
+				let tmp = this.add.rectangle((object.x+(object.width/2)), (object.y+(object.height/2)), object.width, object.height);
+				tmp.properties = object.properties.reduce(
+					(obj, item) => Object.assign(obj, { [item.name]: item.value }), {}
+				);
+				this.physics.world.enable(tmp, 1);
+				this.physics.add.collider(this.player, tmp, this.HitScript, null, this);
+				//debugger;
+				//this.objects.push(tmp);
+
+				// Add pad label
+				//if(tmp.properties.padnum !== 0){
+					this.add.text((tmp.x), (tmp.y-tmp.height), 'script', { color: '#ffffff', textAlagn: 'center' });
+				//}
+			}
+		);
 
 		const aboveLayer = map.createStaticLayer("Rooftops", tileset, 0, 0);
 
@@ -108,6 +129,7 @@ export class GameScene extends Phaser.Scene {
 		});
 
 		this.gzDialog.init();
+
 		this.gzDialog.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
 
 	}
@@ -122,6 +144,10 @@ export class GameScene extends Phaser.Scene {
 		this.player.body.setVelocity(0);
 
 		if( this.gzDialog.visible ){
+			if( this.cursors.space.isDown ){
+				this.gzDialog.display(false);
+			}
+		}else{
 			// Horizontal movement
 			if (this.cursors.left.isDown) {
 				console.log('left');
@@ -167,6 +193,12 @@ export class GameScene extends Phaser.Scene {
 			&& target.properties.portal 
 			&& target.properties.portal === 'lab') this.scene.start('Lab1', {origin:'Area51'});
 		
+	}
+
+	HitScript(player, target){
+		//console.log('target', target.properties);
+		if(target.properties.name && !this.gzDialog.visible)
+			this.gzDialog.setText(target.properties.name, true);
 	}
 	
 }
