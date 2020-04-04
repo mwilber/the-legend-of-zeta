@@ -97,9 +97,12 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 		// the text that will be displayed in the window
 		this.dialog;
 		this.graphics;
+
 		
 		// Create the dialog window
 		this._drawBackground();
+		
+		this.display(false);
 	}
 
 	// Hide/Show the dialog window

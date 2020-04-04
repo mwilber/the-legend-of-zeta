@@ -67,11 +67,21 @@ export class GameScene extends Phaser.Scene {
 
 		this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
 		this.player.name = 'zeta';
+		this.player.isHit = 0;
 
-		this.security = this.physics.add.sprite(this.spawnPoint.x-50, this.spawnPoint.y-50, 'security');
+		this.security = this.physics.add.staticSprite(this.spawnPoint.x-50, this.spawnPoint.y-50, 'security');
+		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 		
 
-		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
+		this.physics.add.collider(this.player, this.security, function(player, target){
+			//if(!this.gzDialog.visible)
+			//	this.gzDialog.setText("Dude! Lay off the coffee.", true);
+			if(this.player.isHit <= 0){
+				this.player.tint = 0xff0000;
+				this.player.isHit = 10;
+				this.player.body.setVelocityY(1000);
+			}
+		}.bind(this));
 
 		objects.objects.forEach(
 			(object) => {
@@ -183,13 +193,19 @@ export class GameScene extends Phaser.Scene {
 		//this.controls.update(delta);
 
 		// Stop any previous movement from the last frame
-		this.player.body.setVelocity(0);
+		if(this.player.isHit > 0){
+			this.player.isHit--;
+
+		}else{
+			this.player.tint = 0xffffff;
+			this.player.body.setVelocity(0);
+		}
 
 		if( this.gzDialog.visible ){
 			if( this.cursors.space.isDown ){
 				this.gzDialog.display(false);
 			}
-		}else{
+		}else if(this.player.isHit <= 0){
 			// Horizontal movement
 			if (this.cursors.left.isDown) {
 				console.log('left');
