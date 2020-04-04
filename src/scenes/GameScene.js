@@ -36,6 +36,11 @@ export class GameScene extends Phaser.Scene {
 
 		this.load.atlas("atlas", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
 		this.load.image("saucer", "assets/images/saucer.png");
+
+		this.load.spritesheet('security', 
+            'assets/sprites/security.png',
+            { frameWidth: 36, frameHeight: 42 }
+        );
 	}
 
 	create() {
@@ -62,6 +67,9 @@ export class GameScene extends Phaser.Scene {
 
 		this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
 		this.player.name = 'zeta';
+
+		this.security = this.physics.add.sprite(this.spawnPoint.x-50, this.spawnPoint.y-50, 'security');
+		
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
@@ -130,9 +138,41 @@ export class GameScene extends Phaser.Scene {
 			repeat: -1
 		});
 
+		this.anims.create({
+            key: 'security-walk-front',
+            frames: anims.generateFrameNumbers('security', { start: 3, end: 5 }),
+            frameRate: 20,
+            repeat: -1
+		});
+		
+		this.anims.create({
+            key: 'security-walk-back',
+            frames: anims.generateFrameNumbers('security', { start: 0, end: 2 }),
+            frameRate: 20,
+            repeat: -1
+		});
+		
+		this.anims.create({
+            key: 'security-walk-left',
+            frames: anims.generateFrameNumbers('security', { start: 6, end: 8 }),
+            frameRate: 20,
+            repeat: -1
+		});
+		
+		this.anims.create({
+            key: 'security-walk-right',
+            frames: anims.generateFrameNumbers('security', { start: 9, end: 11 }),
+            frameRate: 20,
+            repeat: -1
+        });
+
+
+		this.security.anims.play("security-walk-front", true);
+
+
 		this.gzDialog.init();
 
-		this.gzDialog.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
+		//this.gzDialog.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
 
 	}
 
