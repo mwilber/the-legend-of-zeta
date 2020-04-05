@@ -40,6 +40,11 @@ export class GameScene extends Phaser.Scene {
 		this.load.spritesheet('security', 
             'assets/sprites/security.png',
             { frameWidth: 36, frameHeight: 42 }
+		);
+		
+		this.load.spritesheet('blue-lightning', 
+            'assets/sprites/blue-lightning.png',
+            { frameWidth: 16, frameHeight: 32 }
         );
 	}
 
@@ -68,20 +73,36 @@ export class GameScene extends Phaser.Scene {
 		this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
 		this.player.name = 'zeta';
 		this.player.isHit = 0;
+		this.player.direction = 'front';
 
-		this.security = this.physics.add.staticSprite(this.spawnPoint.x-50, this.spawnPoint.y-50, 'security');
-		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 		
+		this.security = this.physics.add.sprite(this.spawnPoint.x-50, this.spawnPoint.y-100, 'security');
+		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
 		this.physics.add.collider(this.player, this.security, function(player, target){
+			let reaction = [player.x-target.x,player.y-target.y];
+            //console.log("GameScene -> create -> reaction", reaction)
+
 			//if(!this.gzDialog.visible)
 			//	this.gzDialog.setText("Dude! Lay off the coffee.", true);
 			if(this.player.isHit <= 0){
 				this.player.tint = 0xff0000;
 				this.player.isHit = 10;
-				this.player.body.setVelocityY(1000);
+				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
 			}
 		}.bind(this));
+
+		this.lightning = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, 'blue-lightning');
+		this.physics.add.overlap(this.security, this.lightning, function(player, target){
+        //console.log("GameScene -> create -> player, target", player, target)
+			//if(this.security.isHit <= 0){
+				this.security.tint = 0xff0000;
+				this.security.isHit = 10;
+				this.security.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
+			//}
+		}.bind(this));
+		this.lightning.setActive(false);
+		this.lightning.setVisible(false);
 
 		objects.objects.forEach(
 			(object) => {
@@ -174,10 +195,18 @@ export class GameScene extends Phaser.Scene {
             frames: anims.generateFrameNumbers('security', { start: 9, end: 11 }),
             frameRate: 20,
             repeat: -1
+		});
+		
+		this.anims.create({
+            key: 'lightning-bolt',
+            frames: anims.generateFrameNumbers('blue-lightning', { start: 0, end: 3 }),
+            frameRate: 20,
+            repeat: -1
         });
 
 
 		this.security.anims.play("security-walk-front", true);
+		this.lightning.anims.play("lightning-bolt", true);
 
 
 		this.gzDialog.init();
@@ -192,6 +221,34 @@ export class GameScene extends Phaser.Scene {
 		// Apply the controls to the camera each update tick of the game
 		//this.controls.update(delta);
 
+		if(this.lightning.active){
+			let tmpX = this.player.x;
+			let tmpY = this.player.y-22;
+			let tmpR = 0;
+
+			switch(this.player.direction){
+				case 'front':
+					tmpX = this.player.x;
+					tmpY = this.player.y+30;
+					tmpR = 180;
+					break;
+				case 'left':
+					tmpX = this.player.x-20;
+					tmpY = this.player.y+15;
+					tmpR = 270;
+					break;
+				case 'right':
+					tmpX = this.player.x+20;
+					tmpY = this.player.y+15;
+					tmpR = 90;
+					break;
+			}
+
+			this.lightning.x = tmpX;
+			this.lightning.y = tmpY;
+			this.lightning.setRotation(this._degrees_to_radians(tmpR));
+		}
+
 		// Stop any previous movement from the last frame
 		if(this.player.isHit > 0){
 			this.player.isHit--;
@@ -201,24 +258,44 @@ export class GameScene extends Phaser.Scene {
 			this.player.body.setVelocity(0);
 		}
 
+		if(this.security.isHit > 0){
+			this.security.isHit--;
+
+		}else if(this.security.isHit === 0){
+			this.security.destroy();
+		}
+
 		if( this.gzDialog.visible ){
 			if( this.cursors.space.isDown ){
 				this.gzDialog.display(false);
 			}
 		}else if(this.player.isHit <= 0){
+
+			if( this.cursors.space.isDown ){
+				this.lightning.setActive(true);
+				this.lightning.setVisible(true);
+			}else{
+				this.lightning.setActive(false);
+				this.lightning.setVisible(false);
+			}
+
 			// Horizontal movement
 			if (this.cursors.left.isDown) {
 				console.log('left');
 				this.player.body.setVelocityX(-speed);
+				this.player.direction = 'left';
 			} else if (this.cursors.right.isDown) {
 				this.player.body.setVelocityX(speed);
+				this.player.direction = 'right';
 			}
 
 			// Vertical movement
 			if (this.cursors.up.isDown) {
 				this.player.body.setVelocityY(-speed);
+				this.player.direction = 'back';
 			} else if (this.cursors.down.isDown) {
 				this.player.body.setVelocityY(speed);
+				this.player.direction = 'front';
 			}
 		}
 
@@ -243,6 +320,8 @@ export class GameScene extends Phaser.Scene {
 			else if (prevVelocity.y < 0) this.player.setTexture("atlas", "misa-back");
 			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
 		}
+
+		console.log(this.player.texture.firstFrame);
 	}
 
 
@@ -257,6 +336,12 @@ export class GameScene extends Phaser.Scene {
 		//console.log('target', target.properties);
 		if(target.properties.name && !this.gzDialog.visible)
 			this.gzDialog.setText(Script[player.name][target.properties.name], true);
+	}
+
+	_degrees_to_radians(degrees)
+	{
+		var pi = Math.PI;
+		return degrees * (pi/180);
 	}
 	
 }
