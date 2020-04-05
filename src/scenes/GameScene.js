@@ -90,6 +90,7 @@ export class GameScene extends Phaser.Scene {
 				this.player.isHit = 10;
 				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
 			}
+			this.security.setVelocity(0);
 		}.bind(this));
 
 		this.lightning = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, 'blue-lightning');
@@ -321,7 +322,6 @@ export class GameScene extends Phaser.Scene {
 			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
 		}
 
-		console.log(this.player.texture.firstFrame);
 	}
 
 
