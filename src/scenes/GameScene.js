@@ -20,6 +20,10 @@ export class GameScene extends Phaser.Scene {
 			x:450,
 			y:1200
 		}
+		this.securityPoint = {
+			x:400,
+			y:1100
+		}
 		if(data.hasOwnProperty('origin')){
 			if(data.origin === 'Lab1') this.spawnPoint = {
 				x:688,
@@ -76,7 +80,7 @@ export class GameScene extends Phaser.Scene {
 		this.player.direction = 'front';
 
 		
-		this.security = this.physics.add.sprite(this.spawnPoint.x-50, this.spawnPoint.y-100, 'security');
+		this.security = this.physics.add.sprite(this.securityPoint.x, this.securityPoint.y, 'security');
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
 		this.physics.add.collider(this.player, this.security, function(player, target){
@@ -320,6 +324,39 @@ export class GameScene extends Phaser.Scene {
 			else if (prevVelocity.x > 0) this.player.setTexture("atlas", "misa-right");
 			else if (prevVelocity.y < 0) this.player.setTexture("atlas", "misa-back");
 			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
+		}
+
+		this.securityPath = {
+			width: 300,
+			height: 150
+		}
+
+		if(this.security.x == this.securityPoint.x && this.security.y == this.securityPoint.y){
+			this.security.setVelocity(0);
+			this.security.y = this.securityPoint.y-1;
+			this.security.x = this.securityPoint.x+1;
+			this.security.anims.play("security-walk-right", true);
+			this.security.body.setVelocityX(speed*.5);
+		}else if(this.security.x > this.securityPoint.x+this.securityPath.width){
+			this.security.setVelocity(0);
+			this.security.x = this.securityPoint.x+this.securityPath.width;
+			this.security.anims.play("security-walk-back", true);
+			this.security.body.setVelocityY(-(speed*.5));
+		}else if(this.security.y < this.securityPoint.y-this.securityPath.height){
+			this.security.setVelocity(0);
+			this.security.y = this.securityPoint.y-this.securityPath.height;
+			this.security.anims.play("security-walk-left", true);
+			this.security.body.setVelocityX(-(speed*.5));
+		}else if(this.security.x < this.securityPoint.x+1){
+			this.security.setVelocity(0);
+			this.security.x = this.securityPoint.x+1;
+			this.security.anims.play("security-walk-front", true);
+			this.security.body.setVelocityY((speed*.5));
+		}else if(this.security.y > this.securityPoint.y-1){
+			this.security.setVelocity(0);
+			this.security.y = this.securityPoint.y-1;
+			this.security.anims.play("security-walk-right", true);
+			this.security.body.setVelocityX(speed*.5);
 		}
 
 	}
