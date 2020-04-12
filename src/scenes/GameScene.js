@@ -81,6 +81,15 @@ export class GameScene extends Phaser.Scene {
 
 		
 		this.security = this.physics.add.sprite(this.securityPoint.x, this.securityPoint.y, 'security');
+		this.security.isHit = -1;
+		this.security.waypoint = 0;
+		this.security.path = [
+			{x: 400, y: 1100},
+			{x: 700, y: 1100},
+			{x: 700, y: 950},
+			{x: 400, y: 950}
+		]
+
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
 		this.physics.add.collider(this.player, this.security, function(player, target){
@@ -177,28 +186,28 @@ export class GameScene extends Phaser.Scene {
 		this.anims.create({
             key: 'security-walk-front',
             frames: anims.generateFrameNumbers('security', { start: 3, end: 5 }),
-            frameRate: 20,
+            frameRate: 10,
             repeat: -1
 		});
 		
 		this.anims.create({
             key: 'security-walk-back',
             frames: anims.generateFrameNumbers('security', { start: 0, end: 2 }),
-            frameRate: 20,
+            frameRate: 10,
             repeat: -1
 		});
 		
 		this.anims.create({
             key: 'security-walk-left',
             frames: anims.generateFrameNumbers('security', { start: 6, end: 8 }),
-            frameRate: 20,
+            frameRate: 15,
             repeat: -1
 		});
 		
 		this.anims.create({
             key: 'security-walk-right',
             frames: anims.generateFrameNumbers('security', { start: 9, end: 11 }),
-            frameRate: 20,
+            frameRate: 15,
             repeat: -1
 		});
 		
@@ -326,37 +335,33 @@ export class GameScene extends Phaser.Scene {
 			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
 		}
 
-		this.securityPath = {
-			width: 300,
-			height: 150
-		}
+		if(this.security.body && this.security.isHit <= 0){
+			this.security.setVelocity(0);
 
-		if(this.security.x == this.securityPoint.x && this.security.y == this.securityPoint.y){
-			this.security.setVelocity(0);
-			this.security.y = this.securityPoint.y-1;
-			this.security.x = this.securityPoint.x+1;
-			this.security.anims.play("security-walk-right", true);
-			this.security.body.setVelocityX(speed*.5);
-		}else if(this.security.x > this.securityPoint.x+this.securityPath.width){
-			this.security.setVelocity(0);
-			this.security.x = this.securityPoint.x+this.securityPath.width;
-			this.security.anims.play("security-walk-back", true);
-			this.security.body.setVelocityY(-(speed*.5));
-		}else if(this.security.y < this.securityPoint.y-this.securityPath.height){
-			this.security.setVelocity(0);
-			this.security.y = this.securityPoint.y-this.securityPath.height;
-			this.security.anims.play("security-walk-left", true);
-			this.security.body.setVelocityX(-(speed*.5));
-		}else if(this.security.x < this.securityPoint.x+1){
-			this.security.setVelocity(0);
-			this.security.x = this.securityPoint.x+1;
-			this.security.anims.play("security-walk-front", true);
-			this.security.body.setVelocityY((speed*.5));
-		}else if(this.security.y > this.securityPoint.y-1){
-			this.security.setVelocity(0);
-			this.security.y = this.securityPoint.y-1;
-			this.security.anims.play("security-walk-right", true);
-			this.security.body.setVelocityX(speed*.5);
+			if(
+				this.security.x >= this.security.path[this.security.waypoint].x-5 &&
+				this.security.x <= this.security.path[this.security.waypoint].x+5 &&
+				this.security.y >= this.security.path[this.security.waypoint].y-5 &&
+				this.security.y <= this.security.path[this.security.waypoint].y+5
+			){
+				this.security.waypoint++;
+				if(this.security.waypoint >= this.security.path.length) this.security.waypoint = 0;
+			}
+			
+			if(this.security.x < this.security.path[this.security.waypoint].x-5){
+				this.security.body.setVelocityX((speed*.5));
+			}else if(this.security.x > this.security.path[this.security.waypoint].x+5){
+				this.security.body.setVelocityX(-(speed*.5));
+			}else{
+				this.security.x = this.security.path[this.security.waypoint].x;
+			}
+			if(this.security.y < this.security.path[this.security.waypoint].y-5){
+				this.security.body.setVelocityY((speed*.5));
+			}else if(this.security.y > this.security.path[this.security.waypoint].y+5){
+				this.security.body.setVelocityY(-(speed*.5));
+			}else{
+				this.security.y = this.security.path[this.security.waypoint].y;
+			}
 		}
 
 	}
