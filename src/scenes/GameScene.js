@@ -88,7 +88,7 @@ export class GameScene extends Phaser.Scene {
 			{x: 700, y: 1100},
 			{x: 700, y: 950},
 			{x: 400, y: 950}
-		]
+		];
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
