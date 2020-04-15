@@ -38,9 +38,9 @@ const gameConfig = {
 		}
 	},
 	scene: [
-		Lab1,
-		GameScene,
 		Lab2,
+		GameScene,
+		Lab1,
 	]
 };
 

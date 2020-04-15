@@ -21,8 +21,8 @@ export class Lab1 extends Phaser.Scene {
             y:700
         };
         this.securityPoint = {
-			x:400,
-			y:400
+			x:220,
+			y:310
 		};
         if(data.hasOwnProperty('origin')){
             if(data.origin === 'Lab2') this.spawnPoint = {

@@ -14,6 +14,10 @@ export class Lab2 extends Phaser.Scene {
     }
     
     init() {
+        this.spawnPoint = {
+            x:400,
+            y:600
+        };
         this.securityPoint = {
 			x:400,
 			y:1100
@@ -22,7 +26,7 @@ export class Lab2 extends Phaser.Scene {
 
 	preload() {
         this.load.scenePlugin('gzDialog', GzDialog);
-        
+
         this.load.image("seckrit-lab-tiles", "assets/images/scifitiles-sheet.png");
         this.load.tilemapTiledJSON("lab-2", "assets/tilemaps/lab-2.json");
 
@@ -60,9 +64,13 @@ export class Lab2 extends Phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         // });
 
-        this.player = this.physics.add.sprite(400, 600, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
+        this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
+        this.player.name = 'zeta';
+		this.player.isHit = 0;
+        this.player.direction = 'front';
 
-        this.security = this.physics.add.sprite(this.securityPoint.x, this.securityPoint.y, 'security');
+        //this.security = this.physics.add.sprite(this.securityPoint.x, this.securityPoint.y, 'security');
+        this.security = {};
 		this.security.isHit = -1;
 		this.security.waypoint = 0;
 		this.security.path = [
@@ -183,8 +191,7 @@ export class Lab2 extends Phaser.Scene {
             repeat: -1
         });
 
-
-		this.security.anims.play("security-walk-front", true);
+        if(this.security.anims) this.security.anims.play("security-walk-front", true);
 		this.lightning.anims.play("lightning-bolt", true);
 
         this.gzDialog.init();
