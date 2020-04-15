@@ -340,6 +340,11 @@ export class Lab1 extends Phaser.Scene {
 			}
 		}
 
+		if (this.security.body.velocity.x < 0) this.security.anims.play("security-walk-left", true);
+		else if (this.security.body.velocity.x > 0) this.security.anims.play("security-walk-right", true);
+		else if (this.security.body.velocity.y < 0) this.security.anims.play("security-walk-back", true);
+		else if (this.security.body.velocity.y > 0) this.security.anims.play("security-walk-front", true);
+
 	}
 
     HitInteractiveLayer(player, target){

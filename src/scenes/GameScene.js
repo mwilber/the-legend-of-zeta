@@ -21,8 +21,8 @@ export class GameScene extends Phaser.Scene {
 			y:1200
 		}
 		this.securityPoint = {
-			x:400,
-			y:1100
+			x:570,
+			y:240
 		}
 		if(data.hasOwnProperty('origin')){
 			if(data.origin === 'Lab1') this.spawnPoint = {
@@ -84,10 +84,10 @@ export class GameScene extends Phaser.Scene {
 		this.security.isHit = -1;
 		this.security.waypoint = 0;
 		this.security.path = [
-			{x: 400, y: 1100},
-			{x: 700, y: 1100},
-			{x: 700, y: 950},
-			{x: 400, y: 950}
+			{x: 780, y: 250},
+			{x: 780, y: 170},
+			{x: 570, y: 170},
+			{x: 570, y: 250}
 		];
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
@@ -185,28 +185,28 @@ export class GameScene extends Phaser.Scene {
 
 		this.anims.create({
             key: 'security-walk-front',
-            frames: anims.generateFrameNumbers('security', { start: 3, end: 5 }),
+            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-front', start: 3, end: 5 }),
             frameRate: 10,
             repeat: -1
 		});
 		
 		this.anims.create({
             key: 'security-walk-back',
-            frames: anims.generateFrameNumbers('security', { start: 0, end: 2 }),
+            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-back', start: 0, end: 2 }),
             frameRate: 10,
             repeat: -1
 		});
 		
 		this.anims.create({
             key: 'security-walk-left',
-            frames: anims.generateFrameNumbers('security', { start: 6, end: 8 }),
+            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-left', start: 6, end: 8 }),
             frameRate: 15,
             repeat: -1
 		});
 		
 		this.anims.create({
             key: 'security-walk-right',
-            frames: anims.generateFrameNumbers('security', { start: 9, end: 11 }),
+            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-right', start: 9, end: 11 }),
             frameRate: 15,
             repeat: -1
 		});
@@ -362,6 +362,11 @@ export class GameScene extends Phaser.Scene {
 			}else{
 				this.security.y = this.security.path[this.security.waypoint].y;
 			}
+
+			if (this.security.body.velocity.x < 0) this.security.anims.play("security-walk-left", true);
+			else if (this.security.body.velocity.x > 0) this.security.anims.play("security-walk-right", true);
+			else if (this.security.body.velocity.y < 0) this.security.anims.play("security-walk-back", true);
+			else if (this.security.body.velocity.y > 0) this.security.anims.play("security-walk-front", true);
 		}
 
 	}
