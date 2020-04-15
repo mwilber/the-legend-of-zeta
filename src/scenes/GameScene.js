@@ -21,8 +21,8 @@ export class GameScene extends Phaser.Scene {
 			y:1200
 		}
 		this.securityPoint = {
-			x:570,
-			y:240
+			x:780,
+			y:170
 		}
 		if(data.hasOwnProperty('origin')){
 			if(data.origin === 'Lab1') this.spawnPoint = {
@@ -84,10 +84,10 @@ export class GameScene extends Phaser.Scene {
 		this.security.isHit = -1;
 		this.security.waypoint = 0;
 		this.security.path = [
-			{x: 780, y: 250},
-			{x: 780, y: 170},
-			{x: 570, y: 170},
-			{x: 570, y: 250}
+			{x: 570, y: 170},	// top left
+			{x: 570, y: 250},	// bottom left
+			{x: 780, y: 250},	// bottom right
+			{x: 780, y: 170}	// top right
 		];
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
@@ -110,9 +110,11 @@ export class GameScene extends Phaser.Scene {
 		this.physics.add.overlap(this.security, this.lightning, function(player, target){
         //console.log("GameScene -> create -> player, target", player, target)
 			//if(this.security.isHit <= 0){
+			if(this.lightning.active){
 				this.security.tint = 0xff0000;
 				this.security.isHit = 10;
 				this.security.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
+			}
 			//}
 		}.bind(this));
 		this.lightning.setActive(false);

@@ -117,6 +117,7 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 
 	// Sets the text for the dialog window
 	setText(text, animate) {
+		if(!text || !text.split) return;
 		this.display(true);
 		// Reset the dialog
 		this.eventCounter = 0;
