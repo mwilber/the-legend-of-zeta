@@ -52,8 +52,10 @@ export class Lab2 extends Phaser.Scene {
 
         // Parameters: layer name (or index) from Tiled, tileset, x, y
         const belowLayer = map.createStaticLayer("Background", tileset, 0, 0);
-        const worldLayer = map.createStaticLayer("Interactive", tileset, 0, 0);
-        
+		const worldLayer = map.createStaticLayer("Interactive", tileset, 0, 0);
+		const scriptLayer = map.createStaticLayer("Script", tileset, 0, 0);
+
+		const objects = map.getObjectLayer('Script'); //find the object layer in the tilemap named 'objects'
 
         belowLayer.setCollisionByProperty({ collide: true });
         worldLayer.setCollisionByProperty({ collide: true });
@@ -108,6 +110,24 @@ export class Lab2 extends Phaser.Scene {
 		}.bind(this));
 		this.lightning.setActive(false);
 		this.lightning.setVisible(false);
+
+		objects.objects.forEach(
+			(object) => {
+				let tmp = this.add.rectangle((object.x+(object.width/2)), (object.y+(object.height/2)), object.width, object.height);
+				tmp.properties = object.properties.reduce(
+					(obj, item) => Object.assign(obj, { [item.name]: item.value }), {}
+				);
+				this.physics.world.enable(tmp, 1);
+				this.physics.add.collider(this.player, tmp, this.HitScript, null, this);
+				//debugger;
+				//this.objects.push(tmp);
+
+				// Add pad label
+				//if(tmp.properties.padnum !== 0){
+					this.add.text((tmp.x), (tmp.y-tmp.height), 'script', { color: '#ffffff', textAlagn: 'center' });
+				//}
+			}
+		);
 
         const aboveLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
 
@@ -342,7 +362,13 @@ export class Lab2 extends Phaser.Scene {
                 if(target.properties.portal === 'ascend') this.scene.start('Lab1', {origin: 'Lab2'});
             }
         
-    }
+	}
+	
+	HitScript(player, target){
+		//console.log('target', target.properties);
+		if(target.properties.name && !this.gzDialog.visible)
+			this.gzDialog.setText(Script[player.name][target.properties.name], true);
+	}
 
     _degrees_to_radians(degrees)
 	{

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
- <tileset firstgid="1" name="seckrit-lab" tilewidth="32" tileheight="32" tilecount="84" columns="14">
-  <image source="../images/scifitiles-sheet.png" width="448" height="192"/>
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="5">
+ <tileset firstgid="1" name="seckrit-lab" tilewidth="32" tileheight="32" tilecount="196" columns="14">
+  <image source="../images/scifitiles-sheet.png" width="448" height="448"/>
   <terraintypes>
    <terrain name="Blue Zone" tile="4"/>
    <terrain name="Red Zone" tile="46"/>
@@ -430,6 +430,171 @@
     <property name="collide" type="bool" value="false"/>
    </properties>
   </tile>
+  <tile id="84">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="85">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="88">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="89">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="91">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="92">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="93">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="94">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="100">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="101">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="103">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="104">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="105">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="107">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="108">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="112">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="113">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="114">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="115">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="116">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="117">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="118">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="119">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="120">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="121">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="122">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer id="2" name="Background" width="25" height="25">
   <data encoding="csv">
@@ -469,16 +634,16 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,44,45,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,91,92,93,0,0,0,0,0,0,0,0,0,94,95,0,0,0,0,
+0,0,0,0,0,0,0,105,106,107,0,0,0,0,0,0,0,0,0,108,109,0,0,0,0,
+0,0,0,0,0,0,0,119,120,121,0,0,0,0,0,0,0,0,0,122,123,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,85,86,87,0,0,0,0,0,88,89,90,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,99,100,101,0,0,0,0,0,102,103,104,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,113,114,115,0,0,0,0,0,116,117,118,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -497,7 +662,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,31,31,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -518,4 +683,26 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="6" name="Script">
+  <object id="1" x="606" y="254" width="57" height="99">
+   <properties>
+    <property name="name" value="strawhat"/>
+   </properties>
+  </object>
+  <object id="2" x="221" y="253" width="100" height="100">
+   <properties>
+    <property name="name" value="tr3b"/>
+   </properties>
+  </object>
+  <object id="3" x="221" y="445" width="100" height="100">
+   <properties>
+    <property name="name" value="sportmodel"/>
+   </properties>
+  </object>
+  <object id="4" x="477" y="445" width="100" height="100">
+   <properties>
+    <property name="name" value="jello"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
