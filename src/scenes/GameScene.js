@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GzDialog } from '../plugins/GzDialog';
 import { Script } from '../script';
 import { RpgCharacter } from '../RpgCharacter';
+import { Anims } from '../anims';
 
 export class GameScene extends Phaser.Scene {
 	constructor() {
@@ -14,6 +15,8 @@ export class GameScene extends Phaser.Scene {
 		this.player = null;
 
 		this.spawnPoint = null;
+
+		this.animsManager = new Anims(this);
 	}
 	
 	init(data){
@@ -39,18 +42,10 @@ export class GameScene extends Phaser.Scene {
 		this.load.image("tiles", "assets/images/Area-51.png");
 		this.load.tilemapTiledJSON("map", "assets/tilemaps/area-51.json");
 
-		this.load.atlas("atlas", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
+		
 		this.load.image("saucer", "assets/images/saucer.png");
 
-		this.load.spritesheet('security', 
-            'assets/sprites/security.png',
-            { frameWidth: 36, frameHeight: 42 }
-		);
-		
-		this.load.spritesheet('blue-lightning', 
-            'assets/sprites/blue-lightning.png',
-            { frameWidth: 16, frameHeight: 32 }
-        );
+		this.animsManager.preload();
 	}
 
 	create() {
@@ -81,7 +76,7 @@ export class GameScene extends Phaser.Scene {
 		this.player.direction = 'front';
 
 
-		this.test = new RpgCharacter({
+		this.sentry = new RpgCharacter({
             scene: this,
             x: this.spawnPoint.x,
 			y: this.spawnPoint.y-100,
@@ -91,46 +86,26 @@ export class GameScene extends Phaser.Scene {
 				{x: 570, y: 250},	// bottom left
 				{x: 780, y: 250},	// bottom right
 				{x: 780, y: 170}	// top right
-			]
+			],
+			speed: 225
 		});
-
-		
-		this.security = this.physics.add.sprite(this.securityPoint.x, this.securityPoint.y, 'security');
-		this.security.isHit = -1;
-		this.security.waypoint = 0;
-		this.security.path = [
-			{x: 570, y: 170},	// top left
-			{x: 570, y: 250},	// bottom left
-			{x: 780, y: 250},	// bottom right
-			{x: 780, y: 170}	// top right
-		];
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
-		this.physics.add.collider(this.player, this.security, function(player, target){
-			let reaction = [player.x-target.x,player.y-target.y];
-            //console.log("GameScene -> create -> reaction", reaction)
-
-			//if(!this.gzDialog.visible)
-			//	this.gzDialog.setText("Dude! Lay off the coffee.", true);
+		this.physics.add.collider(this.player, this.sentry, function(player, target){
 			if(this.player.isHit <= 0){
 				this.player.tint = 0xff0000;
 				this.player.isHit = 10;
 				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
 			}
-			this.security.setVelocity(0);
+			this.sentry.body.setVelocity(0);
 		}.bind(this));
 
 		this.lightning = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, 'blue-lightning');
-		this.physics.add.overlap(this.security, this.lightning, function(player, target){
-        //console.log("GameScene -> create -> player, target", player, target)
-			//if(this.security.isHit <= 0){
+		this.physics.add.overlap(this.sentry, this.lightning, function(player, target){
 			if(this.lightning.active){
-				this.security.tint = 0xff0000;
-				this.security.isHit = 10;
-				this.security.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
+				this.sentry.DoHit({x: (player.x-target.x)*this.hp, y: (player.y-target.y)*this.hp})
 			}
-			//}
 		}.bind(this));
 		this.lightning.setActive(false);
 		this.lightning.setVisible(false);
@@ -174,69 +149,10 @@ export class GameScene extends Phaser.Scene {
 		// Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
 		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-		const anims = this.anims;
-		anims.create({
-			key: "misa-left-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-left-walk.", start: 0, end: 3, zeroPad: 3 }),
-			frameRate: 10,
-			repeat: -1
-		});
-		anims.create({
-			key: "misa-right-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-right-walk.", start: 0, end: 3, zeroPad: 3 }),
-			frameRate: 10,
-			repeat: -1
-		});
-		anims.create({
-			key: "misa-front-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-front-walk.", start: 0, end: 3, zeroPad: 3 }),
-			frameRate: 10,
-			repeat: -1
-		});
-		anims.create({
-			key: "misa-back-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-back-walk.", start: 0, end: 3, zeroPad: 3 }),
-			frameRate: 10,
-			repeat: -1
-		});
+		
+		this.animsManager.create();
 
-		this.anims.create({
-            key: 'security-walk-front',
-            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-front', start: 3, end: 5 }),
-            frameRate: 10,
-            repeat: -1
-		});
-		
-		this.anims.create({
-            key: 'security-walk-back',
-            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-back', start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: -1
-		});
-		
-		this.anims.create({
-            key: 'security-walk-left',
-            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-left', start: 6, end: 8 }),
-            frameRate: 15,
-            repeat: -1
-		});
-		
-		this.anims.create({
-            key: 'security-walk-right',
-            frames: anims.generateFrameNumbers('security', { prefix:'security-walk-right', start: 9, end: 11 }),
-            frameRate: 15,
-            repeat: -1
-		});
-		
-		this.anims.create({
-            key: 'lightning-bolt',
-            frames: anims.generateFrameNumbers('blue-lightning', { start: 0, end: 3 }),
-            frameRate: 20,
-            repeat: -1
-        });
-
-
-		this.security.anims.play("security-walk-front", true);
+		//this.security.anims.play("security-walk-front", true);
 		this.lightning.anims.play("lightning-bolt", true);
 
 
@@ -289,12 +205,7 @@ export class GameScene extends Phaser.Scene {
 			this.player.body.setVelocity(0);
 		}
 
-		if(this.security.isHit > 0){
-			this.security.isHit--;
-
-		}else if(this.security.isHit === 0){
-			this.security.destroy();
-		}
+		
 
 		if( this.gzDialog.visible ){
 			if( this.cursors.space.isDown ){
@@ -352,39 +263,7 @@ export class GameScene extends Phaser.Scene {
 			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
 		}
 
-		if(this.security.body && this.security.isHit <= 0){
-			this.security.setVelocity(0);
-
-			if(
-				this.security.x >= this.security.path[this.security.waypoint].x-5 &&
-				this.security.x <= this.security.path[this.security.waypoint].x+5 &&
-				this.security.y >= this.security.path[this.security.waypoint].y-5 &&
-				this.security.y <= this.security.path[this.security.waypoint].y+5
-			){
-				this.security.waypoint++;
-				if(this.security.waypoint >= this.security.path.length) this.security.waypoint = 0;
-			}
-			
-			if(this.security.x < this.security.path[this.security.waypoint].x-5){
-				this.security.body.setVelocityX((speed*.5));
-			}else if(this.security.x > this.security.path[this.security.waypoint].x+5){
-				this.security.body.setVelocityX(-(speed*.5));
-			}else{
-				this.security.x = this.security.path[this.security.waypoint].x;
-			}
-			if(this.security.y < this.security.path[this.security.waypoint].y-5){
-				this.security.body.setVelocityY((speed*.5));
-			}else if(this.security.y > this.security.path[this.security.waypoint].y+5){
-				this.security.body.setVelocityY(-(speed*.5));
-			}else{
-				this.security.y = this.security.path[this.security.waypoint].y;
-			}
-
-			if (this.security.body.velocity.x < 0) this.security.anims.play("security-walk-left", true);
-			else if (this.security.body.velocity.x > 0) this.security.anims.play("security-walk-right", true);
-			else if (this.security.body.velocity.y < 0) this.security.anims.play("security-walk-back", true);
-			else if (this.security.body.velocity.y > 0) this.security.anims.play("security-walk-front", true);
-		}
+		this.sentry.update();
 
 	}
 
