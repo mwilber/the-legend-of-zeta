@@ -17,7 +17,7 @@ import '../app-shell.css';
 import '../styles/main.scss';
 
 import 'phaser';
-import { GameScene } from './scenes/GameScene';
+import { Area51 } from './scenes/Area51';
 import { Lab1 } from './scenes/Lab1';
 import { Lab2 } from './scenes/Lab2';
 //import { GzDialog } from './plugins/gzDialog';
@@ -38,7 +38,7 @@ const gameConfig = {
 		}
 	},
 	scene: [
-		GameScene,
+		Area51,
 		Lab1,
 		Lab2,
 	]

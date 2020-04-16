@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
-import { GzDialog } from '../plugins/GzDialog';
-import { Script } from '../script';
-import { RpgCharacter } from '../RpgCharacter';
-import { Anims } from '../anims';
+import { GzDialog } from './plugins/GzDialog';
+import { Script } from './script';
+import { RpgCharacter } from './RpgCharacter';
+import { Anims } from './anims';
 
 export class GameScene extends Phaser.Scene {
-	constructor() {
+	constructor(sceneName) {
 		super({
-			key: 'GameScene'
+			key: sceneName
 		});
 
 		this.controls = null; // User controls
@@ -20,31 +20,11 @@ export class GameScene extends Phaser.Scene {
 	}
 	
 	init(data){
-		this.spawnPoint = {
-			x:450,
-			y:1200
-		}
-		this.securityPoint = {
-			x:780,
-			y:170
-		}
-		if(data.hasOwnProperty('origin')){
-			if(data.origin === 'Lab1') this.spawnPoint = {
-				x:688,
-				y:236
-			}
-		}
+		
 	}
 
 	preload() {
 		this.load.scenePlugin('gzDialog', GzDialog);
-
-		this.load.image("tiles", "assets/images/Area-51.png");
-		this.load.tilemapTiledJSON("map", "assets/tilemaps/area-51.json");
-
-		
-		this.load.image("saucer", "assets/images/saucer.png");
-
 		this.animsManager.preload();
 	}
 
@@ -76,37 +56,20 @@ export class GameScene extends Phaser.Scene {
 		this.player.direction = 'front';
 
 
-		this.sentry = new RpgCharacter({
-            scene: this,
-            x: this.spawnPoint.x,
-			y: this.spawnPoint.y-100,
-			image: 'security',
-			path: [
-				{x: 570, y: 170},	// top left
-				{x: 570, y: 250},	// bottom left
-				{x: 780, y: 250},	// bottom right
-				{x: 780, y: 170}	// top right
-			],
-			speed: 225
-		});
+		
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
-		this.physics.add.collider(this.player, this.sentry, function(player, target){
-			if(this.player.isHit <= 0){
-				this.player.tint = 0xff0000;
-				this.player.isHit = 10;
-				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
-			}
-			this.sentry.body.setVelocity(0);
-		}.bind(this));
+		
 
 		this.lightning = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, 'blue-lightning');
-		this.physics.add.overlap(this.sentry, this.lightning, function(player, target){
-			if(this.lightning.active){
-				this.sentry.DoHit({x: (player.x-target.x)*this.hp, y: (player.y-target.y)*this.hp})
-			}
-		}.bind(this));
+		if(this.sentry){
+			this.physics.add.overlap(this.sentry, this.lightning, function(player, target){
+				if(this.lightning.active){
+					this.sentry.DoHit({x: (player.x-target.x)*this.hp, y: (player.y-target.y)*this.hp})
+				}
+			}.bind(this));
+		}
 		this.lightning.setActive(false);
 		this.lightning.setVisible(false);
 
@@ -262,8 +225,6 @@ export class GameScene extends Phaser.Scene {
 			else if (prevVelocity.y < 0) this.player.setTexture("atlas", "misa-back");
 			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
 		}
-
-		this.sentry.update();
 
 	}
 
