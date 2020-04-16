@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { GzDialog } from '../plugins/GzDialog';
 import { Script } from '../script';
+import { RpgCharacter } from '../RpgCharacter';
 
 export class GameScene extends Phaser.Scene {
 	constructor() {
@@ -78,6 +79,20 @@ export class GameScene extends Phaser.Scene {
 		this.player.name = 'zeta';
 		this.player.isHit = 0;
 		this.player.direction = 'front';
+
+
+		this.test = new RpgCharacter({
+            scene: this,
+            x: this.spawnPoint.x,
+			y: this.spawnPoint.y-100,
+			image: 'security',
+			path: [
+				{x: 570, y: 170},	// top left
+				{x: 570, y: 250},	// bottom left
+				{x: 780, y: 250},	// bottom right
+				{x: 780, y: 170}	// top right
+			]
+		});
 
 		
 		this.security = this.physics.add.sprite(this.securityPoint.x, this.securityPoint.y, 'security');
