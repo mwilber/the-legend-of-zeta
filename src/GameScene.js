@@ -16,6 +16,8 @@ export class GameScene extends Phaser.Scene {
 
 		this.spawnPoint = null;
 
+		this.portals = {};
+
 		this.animsManager = new Anims(this);
 	}
 	
@@ -28,12 +30,12 @@ export class GameScene extends Phaser.Scene {
 		this.animsManager.preload();
 	}
 
-	create() {
-		const map = this.make.tilemap({ key: "map" });
+	create(settings) {
+		const map = this.make.tilemap({ key: settings.mapKey });
 
 		// Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
 		// Phaser's cache (i.e. the name you used in preload)
-		const tileset = map.addTilesetImage("Area-51", "tiles");
+		const tileset = map.addTilesetImage(settings.tiledKey, settings.tileKey);
 
 		// Parameters: layer name (or index) from Tiled, tileset, x, y
 		const belowLayer = map.createStaticLayer("Background", tileset, 0, 0);
@@ -73,25 +75,23 @@ export class GameScene extends Phaser.Scene {
 		this.lightning.setActive(false);
 		this.lightning.setVisible(false);
 
-		objects.objects.forEach(
-			(object) => {
-				let tmp = this.add.rectangle((object.x+(object.width/2)), (object.y+(object.height/2)), object.width, object.height);
-				tmp.properties = object.properties.reduce(
-					(obj, item) => Object.assign(obj, { [item.name]: item.value }), {}
-				);
-				this.physics.world.enable(tmp, 1);
-				this.physics.add.collider(this.player, tmp, this.HitScript, null, this);
-				//debugger;
-				//this.objects.push(tmp);
+		if(objects && objects.objects){
+			objects.objects.forEach(
+				(object) => {
+					let tmp = this.add.rectangle((object.x+(object.width/2)), (object.y+(object.height/2)), object.width, object.height);
+					tmp.properties = object.properties.reduce(
+						(obj, item) => Object.assign(obj, { [item.name]: item.value }), {}
+					);
+					this.physics.world.enable(tmp, 1);
+					this.physics.add.collider(this.player, tmp, this.HitScript, null, this);
 
-				// Add pad label
-				//if(tmp.properties.padnum !== 0){
 					this.add.text((tmp.x), (tmp.y-tmp.height), 'script', { color: '#ffffff', textAlagn: 'center' });
-				//}
-			}
-		);
+				}
+			);
+		}
 
-		const aboveLayer = map.createStaticLayer("Rooftops", tileset, 0, 0);
+		let aboveLayer = map.createStaticLayer("Rooftops", tileset, 0, 0);
+		if(!aboveLayer) aboveLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
 
 		// Phaser supports multiple cameras, but you can access the default camera like this:
 		const camera = this.cameras.main;
@@ -230,14 +230,11 @@ export class GameScene extends Phaser.Scene {
 
 
 	HitInteractiveLayer(player, target){
-		if(target.properties 
-			&& target.properties.portal 
-			&& target.properties.portal === 'lab') this.scene.start('Lab1', {origin:'Area51'});
-		
+		if(target.properties && target.properties.portal && this.portals[target.properties.portal]) 
+			this.scene.start(this.portals[target.properties.portal], {origin:this.scene.key});
 	}
 
 	HitScript(player, target){
-		//console.log('target', target.properties);
 		if(target.properties.name && !this.gzDialog.visible)
 			this.gzDialog.setText(Script[player.name][target.properties.name], true);
 	}

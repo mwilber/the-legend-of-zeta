@@ -4,6 +4,8 @@ import { RpgCharacter } from '../RpgCharacter';
 export class Area51 extends GameScene {
 	constructor(){
 		super('Area51');
+
+		this.portals.lab = 'Lab1';
 	}
 
 	init(data){
@@ -32,7 +34,11 @@ export class Area51 extends GameScene {
 	}
 
 	create(){
-		super.create();
+		super.create({
+			tileKey: "tiles",
+			mapKey: "map",
+			tiledKey: "Area-51"
+		});
 
 		// this.sentry = new RpgCharacter({
 		// 	scene: this,
