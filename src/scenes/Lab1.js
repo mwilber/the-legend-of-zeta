@@ -38,35 +38,35 @@ export class Lab1 extends GameScene {
 			tileKey: 'seckrit-lab-tiles',
 			mapKey: 'lab-1',
 			tiledKey: 'seckrit-lab'
+        });
+
+		this.sentry = new RpgCharacter({
+			scene: this,
+			x: this.securityPoint.x,
+			y: this.securityPoint.y,
+			image: 'security',
+			path: [
+				{x: 220, y: 310},
+                {x: 570, y: 310},
+                {x: 570, y: 100},
+                {x: 220, y: 100}
+			],
+			speed: 225
 		});
 
-		// this.sentry = new RpgCharacter({
-		// 	scene: this,
-		// 	x: this.spawnPoint.x,
-		// 	y: this.spawnPoint.y-100,
-		// 	image: 'security',
-		// 	path: [
-		// 		{x: 570, y: 170},	// top left
-		// 		{x: 570, y: 250},	// bottom left
-		// 		{x: 780, y: 250},	// bottom right
-		// 		{x: 780, y: 170}	// top right
-		// 	],
-		// 	speed: 225
-		// });
-
-		// this.physics.add.collider(this.player, this.sentry, function(player, target){
-		// 	if(this.player.isHit <= 0){
-		// 		this.player.tint = 0xff0000;
-		// 		this.player.isHit = 10;
-		// 		this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
-		// 	}
-		// 	this.sentry.body.setVelocity(0);
-		// }.bind(this));
+		this.physics.add.collider(this.player, this.sentry, function(player, target){
+			if(this.player.isHit <= 0){
+				this.player.tint = 0xff0000;
+				this.player.isHit = 10;
+				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
+			}
+			this.sentry.body.setVelocity(0);
+		}.bind(this));
 	}
 
 	update(){
 		super.update();
 
-		//this.sentry.update();
+		this.sentry.update();
 	}
 }
