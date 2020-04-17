@@ -79,8 +79,7 @@ export class GameScene extends Phaser.Scene {
 			);
 		}
 
-		let aboveLayer = map.createStaticLayer("Rooftops", tileset, 0, 0);
-		if(!aboveLayer) aboveLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
+		let aboveLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
 
 		// Phaser supports multiple cameras, but you can access the default camera like this:
 		const camera = this.cameras.main;
