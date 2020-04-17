@@ -51,22 +51,17 @@ export class Area51 extends GameScene {
 				{x: 780, y: 250},	// bottom right
 				{x: 780, y: 170}	// top right
 			],
-			speed: 225
+			speed: 112
 		});
 
-		this.physics.add.collider(this.player, this.sentry, function(player, target){
-			if(this.player.isHit <= 0){
-				this.player.tint = 0xff0000;
-				this.player.isHit = 10;
-				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
-			}
-			this.sentry.body.setVelocity(0);
-		}.bind(this));
+		this.physics.add.collider(this.sentry, this.player, this.player.DoHit);
 	}
 
 	update(){
-		super.update();
-
-		this.sentry.update();
+		if(super.update()){
+			this.sentry.update();
+		}else{
+			this.sentry.DoHalt();
+		}
 	}
 }

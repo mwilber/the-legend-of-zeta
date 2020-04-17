@@ -45,17 +45,22 @@ export class GameScene extends Phaser.Scene {
 		const objects = map.getObjectLayer('Script'); //find the object layer in the tilemap named 'objects'
 
 		worldLayer.setCollisionByProperty({ collide: true });
-		const debugGraphics = this.add.graphics().setAlpha(0.75);
+		//const debugGraphics = this.add.graphics().setAlpha(0.75);
 		// worldLayer.renderDebug(debugGraphics, {
 		//     tileColor: null, // Color of non-colliding tiles
 		//     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
 		//     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
 		// });
 
-		this.player = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
-		this.player.name = 'zeta';
-		this.player.isHit = 0;
-		this.player.direction = 'front';
+
+		this.player = new RpgCharacter({
+			scene: this,
+			x: this.spawnPoint.x,
+			y: this.spawnPoint.y,
+			name: 'zeta',
+			image: 'zeta',
+			speed: 225
+		});
 
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
 
@@ -102,67 +107,28 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	update(time, delta) {
-		const speed = 225;
-		const prevVelocity = this.player.body.velocity.clone();
-		// Apply the controls to the camera each update tick of the game
-		//this.controls.update(delta);
-
-		// Handle the player hit
-		if(this.player.isHit > 0){
-			this.player.isHit--;
-
-		}else{
-			this.player.tint = 0xffffff;
-			this.player.body.setVelocity(0);
-		}
 
 		if( this.gzDialog.visible ){
 			if( this.cursors.space.isDown ){
 				this.gzDialog.display(false);
 			}
-		}else if(this.player.isHit <= 0){
-
-			// Horizontal movement
-			if (this.cursors.left.isDown) {
-				this.player.body.setVelocityX(-speed);
-				this.player.direction = 'left';
-			} else if (this.cursors.right.isDown) {
-				this.player.body.setVelocityX(speed);
-				this.player.direction = 'right';
-			}
-
-			// Vertical movement
-			if (this.cursors.up.isDown) {
-				this.player.body.setVelocityY(-speed);
-				this.player.direction = 'back';
-			} else if (this.cursors.down.isDown) {
-				this.player.body.setVelocityY(speed);
-				this.player.direction = 'front';
-			}
+			return false;
 		}
+		// Horizontal movement
+		if (this.cursors.left.isDown)
+			this.player.SetInstruction({action: 'walk', option: 'left'});
+		else if (this.cursors.right.isDown)
+			this.player.SetInstruction({action: 'walk', option: 'right'});
 
-		// Normalize and scale the velocity so that player can't move faster along a diagonal
-		this.player.body.velocity.normalize().scale(speed);
+		// Vertical movement
+		if (this.cursors.up.isDown)
+			this.player.SetInstruction({action: 'walk', option: 'back'});
+		else if (this.cursors.down.isDown)
+			this.player.SetInstruction({action: 'walk', option: 'front'});
 
-		// Update the animation last and give left/right animations precedence over up/down animations
-		if (this.cursors.left.isDown) {
-			this.player.anims.play("misa-left-walk", true);
-		} else if (this.cursors.right.isDown) {
-			this.player.anims.play("misa-right-walk", true);
-		} else if (this.cursors.up.isDown) {
-			this.player.anims.play("misa-back-walk", true);
-		} else if (this.cursors.down.isDown) {
-			this.player.anims.play("misa-front-walk", true);
-		} else {
-			this.player.anims.stop();
+		this.player.update();
 
-			// If we were moving, pick and idle frame to use
-			if (prevVelocity.x < 0) this.player.setTexture("atlas", "misa-left");
-			else if (prevVelocity.x > 0) this.player.setTexture("atlas", "misa-right");
-			else if (prevVelocity.y < 0) this.player.setTexture("atlas", "misa-back");
-			else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
-		}
-
+		return true;
 	}
 
 
@@ -174,12 +140,6 @@ export class GameScene extends Phaser.Scene {
 	HitScript(player, target){
 		if(target.properties.name && !this.gzDialog.visible)
 			this.gzDialog.setText(Script[player.name][target.properties.name], true);
-	}
-
-	_degrees_to_radians(degrees)
-	{
-		var pi = Math.PI;
-		return degrees * (pi/180);
 	}
 	
 }

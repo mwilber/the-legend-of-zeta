@@ -6,7 +6,7 @@ export class Anims {
     }
 
     preload(){
-        this.scene.load.atlas("atlas", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
+        this.scene.load.atlas("zeta", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
         this.scene.load.spritesheet('security', 
             'assets/sprites/security.png',
             { frameWidth: 36, frameHeight: 42 }
@@ -22,26 +22,26 @@ export class Anims {
         const anims = this.scene.anims;
 
 		anims.create({
-			key: "misa-left-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-left-walk.", start: 0, end: 3, zeroPad: 3 }),
+			key: "zeta-walk-left",
+			frames: anims.generateFrameNames("zeta", { prefix: "zeta-walk-left.", start: 0, end: 3, zeroPad: 3 }),
 			frameRate: 10,
 			repeat: -1
 		});
 		anims.create({
-			key: "misa-right-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-right-walk.", start: 0, end: 3, zeroPad: 3 }),
+			key: "zeta-walk-right",
+			frames: anims.generateFrameNames("zeta", { prefix: "zeta-walk-right.", start: 0, end: 3, zeroPad: 3 }),
 			frameRate: 10,
 			repeat: -1
 		});
 		anims.create({
-			key: "misa-front-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-front-walk.", start: 0, end: 3, zeroPad: 3 }),
+			key: "zeta-walk-front",
+			frames: anims.generateFrameNames("zeta", { prefix: "zeta-walk-front.", start: 0, end: 3, zeroPad: 3 }),
 			frameRate: 10,
 			repeat: -1
 		});
 		anims.create({
-			key: "misa-back-walk",
-			frames: anims.generateFrameNames("atlas", { prefix: "misa-back-walk.", start: 0, end: 3, zeroPad: 3 }),
+			key: "zeta-walk-back",
+			frames: anims.generateFrameNames("zeta", { prefix: "zeta-walk-back.", start: 0, end: 3, zeroPad: 3 }),
 			frameRate: 10,
 			repeat: -1
 		});
