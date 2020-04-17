@@ -57,23 +57,7 @@ export class GameScene extends Phaser.Scene {
 		this.player.isHit = 0;
 		this.player.direction = 'front';
 
-
-		
-
 		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
-
-		
-
-		this.lightning = this.physics.add.sprite(this.spawnPoint.x, this.spawnPoint.y, 'blue-lightning');
-		if(this.sentry){
-			this.physics.add.overlap(this.sentry, this.lightning, function(player, target){
-				if(this.lightning.active){
-					this.sentry.DoHit({x: (player.x-target.x)*this.hp, y: (player.y-target.y)*this.hp})
-				}
-			}.bind(this));
-		}
-		this.lightning.setActive(false);
-		this.lightning.setVisible(false);
 
 		if(objects && objects.objects){
 			objects.objects.forEach(
@@ -111,18 +95,10 @@ export class GameScene extends Phaser.Scene {
 
 		// Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
 		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
 		
 		this.animsManager.create();
 
-		//this.security.anims.play("security-walk-front", true);
-		this.lightning.anims.play("lightning-bolt", true);
-
-
 		this.gzDialog.init();
-
-		//this.gzDialog.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
-
 	}
 
 	update(time, delta) {
@@ -131,35 +107,7 @@ export class GameScene extends Phaser.Scene {
 		// Apply the controls to the camera each update tick of the game
 		//this.controls.update(delta);
 
-		if(this.lightning.active){
-			let tmpX = this.player.x;
-			let tmpY = this.player.y-22;
-			let tmpR = 0;
-
-			switch(this.player.direction){
-				case 'front':
-					tmpX = this.player.x;
-					tmpY = this.player.y+30;
-					tmpR = 180;
-					break;
-				case 'left':
-					tmpX = this.player.x-20;
-					tmpY = this.player.y+15;
-					tmpR = 270;
-					break;
-				case 'right':
-					tmpX = this.player.x+20;
-					tmpY = this.player.y+15;
-					tmpR = 90;
-					break;
-			}
-
-			this.lightning.x = tmpX;
-			this.lightning.y = tmpY;
-			this.lightning.setRotation(this._degrees_to_radians(tmpR));
-		}
-
-		// Stop any previous movement from the last frame
+		// Handle the player hit
 		if(this.player.isHit > 0){
 			this.player.isHit--;
 
@@ -168,25 +116,14 @@ export class GameScene extends Phaser.Scene {
 			this.player.body.setVelocity(0);
 		}
 
-		
-
 		if( this.gzDialog.visible ){
 			if( this.cursors.space.isDown ){
 				this.gzDialog.display(false);
 			}
 		}else if(this.player.isHit <= 0){
 
-			if( this.cursors.space.isDown ){
-				this.lightning.setActive(true);
-				this.lightning.setVisible(true);
-			}else{
-				this.lightning.setActive(false);
-				this.lightning.setVisible(false);
-			}
-
 			// Horizontal movement
 			if (this.cursors.left.isDown) {
-				console.log('left');
 				this.player.body.setVelocityX(-speed);
 				this.player.direction = 'left';
 			} else if (this.cursors.right.isDown) {
