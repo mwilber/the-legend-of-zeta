@@ -4,7 +4,6 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 
 	constructor(scene, pluginManager) {
 		super(scene, pluginManager);
-		console.log('GzDialog constructor');
 		this.scene = scene;
 		this.systems = scene.sys;
 	}
@@ -12,7 +11,6 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 	//  Called when the Plugin is booted by the PluginManager.
 	//  If you need to reference other systems in the Scene (like the Loader or DisplayList) then set-up those references now, not in the constructor.
 	boot() {
-		console.log('GzDialog boot');
 		let eventEmitter = this.systems.events;
 		eventEmitter.on('update', this.update, this);
 
@@ -74,7 +72,6 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 	}
 
 	init(opts) {
-		console.log('GzDialog init called')
 		// Check to see if any optional parameters were passed
 		if (!opts) opts = {};
 		// set properties from opts object or use defaults
@@ -107,7 +104,6 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 
 	// Hide/Show the dialog window
 	display(showMe) {
-		
 		if(typeof showMe === 'undefined') this.visible = !this.visible;
 		else this.visible = showMe;
 
