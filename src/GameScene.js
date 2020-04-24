@@ -53,7 +53,7 @@ export class GameScene extends Phaser.Scene {
 		// });
 
 
-		this.player = new RpgCharacter({
+		window.player = this.player = new RpgCharacter({
 			scene: this,
 			x: this.spawnPoint.x,
 			y: this.spawnPoint.y,
@@ -126,6 +126,13 @@ export class GameScene extends Phaser.Scene {
 			this.player.SetInstruction({action: 'walk', option: 'front'});
 
 		this.player.update();
+
+		// End game
+		if(this.player.hp <= 0){
+			this.player.destroy();
+			console.log('you dead');
+			this.scene.start('EndScene');
+		}
 
 		return true;
 	}
