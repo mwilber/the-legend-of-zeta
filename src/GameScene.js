@@ -27,6 +27,7 @@ export class GameScene extends Phaser.Scene {
 
 	preload() {
 		this.load.scenePlugin('gzDialog', GzDialog);
+		this.load.image('heart', 'assets/images/heart_full.png');
 		this.animsManager.preload();
 	}
 
@@ -103,6 +104,11 @@ export class GameScene extends Phaser.Scene {
 		this.animsManager.create();
 
 		this.gzDialog.init();
+
+		// Add a container of hearts to show the player's health
+		this.hearts = this.add.container(700, 32).setScrollFactor(0);
+		for(let idx=0; idx<this.player.hp; idx++ )
+			this.hearts.add(this.add.image((idx*20), 0, 'heart'));
 	}
 
 	update(time, delta) {
@@ -132,6 +138,11 @@ export class GameScene extends Phaser.Scene {
 			this.player.destroy();
 			console.log('you dead');
 			this.scene.start('EndScene');
+		}else{
+			if(this.hearts.list.length > this.player.hp){
+				console.log((this.hearts.list.length-1))
+				this.hearts.removeAt(this.hearts.list.length-1, true);
+			}
 		}
 
 		return true;
