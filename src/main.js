@@ -21,7 +21,7 @@ import { Area51 } from './scenes/Area51';
 import { Lab1 } from './scenes/Lab1';
 import { Lab2 } from './scenes/Lab2';
 import { EndScene } from './scenes/EndScene';
-//import { GzDialog } from './plugins/gzDialog';
+import { IntroScene } from './scenes/IntroScene';
 
 const gameConfig = {
 	type: Phaser.AUTO,
@@ -39,6 +39,7 @@ const gameConfig = {
 		}
 	},
 	scene: [
+		IntroScene,
 		Area51,
 		Lab1,
 		Lab2,
