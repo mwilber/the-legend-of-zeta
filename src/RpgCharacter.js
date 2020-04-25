@@ -7,7 +7,7 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
         this.path = path || false;
         this.waypoint = 0;
         this.isHit = -1;
-        this.hp = 10;
+        this.hp = 3;
         this.name = name || "anonymous";
         this.speed = speed;
         this.image = image;
@@ -23,7 +23,6 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
         if(this.isHit > 0){
 			this.isHit--;
 		}else if(this.isHit === 0){
-            //this.destroy();
             this.tint = 0xffffff;
             this.isHit = -1;
         }else{
@@ -126,7 +125,8 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
 
     DoHit(source, target){
         target.tint = 0xff0000;
-        target.isHit = target.hp;
+        target.isHit = target.hp*10;
+        target.hp--;
         target.body.setVelocity(-(source.x-target.x)*5, -(source.y-target.y)*5);
         source.body.setVelocity(0);
     }
