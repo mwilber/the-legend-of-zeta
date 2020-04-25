@@ -1,6 +1,9 @@
 import { GameScene } from "../GameScene";
 import { RpgCharacter } from '../RpgCharacter';
 
+/**
+ * Lab 1 Level scene
+ */
 export class Lab1 extends GameScene {
 	constructor(){
         super('Lab1');

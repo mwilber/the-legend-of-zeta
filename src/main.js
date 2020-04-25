@@ -48,8 +48,3 @@ const gameConfig = {
 };
 
 new Phaser.Game(gameConfig);
-
-// // Register this plugin with the PluginManager
-// GzDialog.register = function (PluginManager) {
-// 	GzDialog.register('GzDialog', GzDialog, 'dialogModal');
-// };

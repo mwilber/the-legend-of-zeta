@@ -1,6 +1,9 @@
 import { GameScene } from "../GameScene";
 import { RpgCharacter } from '../RpgCharacter';
 
+/**
+ * Area 51 Level scene
+ */
 export class Area51 extends GameScene {
 	constructor(){
 		super('Area51');

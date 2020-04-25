@@ -4,6 +4,9 @@ import { Script } from './script';
 import { RpgCharacter } from './RpgCharacter';
 import { Anims } from './anims';
 
+/**
+ * Parent class for all playable scenes
+ */
 export class GameScene extends Phaser.Scene {
 	constructor(sceneName) {
 		super({
@@ -18,12 +21,12 @@ export class GameScene extends Phaser.Scene {
 
 		this.portals = {};
 
+		// The Anims class is tightly coupled to this GameScene class and
+		// is used to break the animation setup code into its own file.
 		this.animsManager = new Anims(this);
 	}
 	
-	init(data){
-		
-	}
+	init(data){}
 
 	preload() {
 		this.load.scenePlugin('gzDialog', GzDialog);
@@ -32,28 +35,11 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	create(settings) {
-		const map = this.make.tilemap({ key: settings.mapKey });
 
-		// Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-		// Phaser's cache (i.e. the name you used in preload)
-		const tileset = map.addTilesetImage(settings.tiledKey, settings.tileKey);
+		// Set up simple keyboard controls
+		this.cursors = this.input.keyboard.createCursorKeys();
 
-		// Parameters: layer name (or index) from Tiled, tileset, x, y
-		const belowLayer = map.createStaticLayer("Background", tileset, 0, 0);
-		const worldLayer = map.createStaticLayer("Interactive", tileset, 0, 0);
-		const scriptLayer = map.createStaticLayer("Script", tileset, 0, 0);
-
-		const objects = map.getObjectLayer('Script'); //find the object layer in the tilemap named 'objects'
-
-		worldLayer.setCollisionByProperty({ collide: true });
-		//const debugGraphics = this.add.graphics().setAlpha(0.75);
-		// worldLayer.renderDebug(debugGraphics, {
-		//     tileColor: null, // Color of non-colliding tiles
-		//     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-		//     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-		// });
-
-
+		// Set up the player character
 		window.player = this.player = new RpgCharacter({
 			scene: this,
 			x: this.spawnPoint.x,
@@ -63,10 +49,26 @@ export class GameScene extends Phaser.Scene {
 			speed: 225
 		});
 
-		this.physics.add.collider(this.player, worldLayer, this.HitInteractiveLayer.bind(this));
+		// Load map json from Tiled
+		const map = this.make.tilemap({ key: settings.mapKey });
+		// settings.tiledKey is the name of the tileset in Tiled
+		const tileset = map.addTilesetImage(settings.tiledKey, settings.tileKey);
+		// layer key is the layer name set in Tiled
+		const backgroundLayer = map.createStaticLayer('Background', tileset, 0, 0);
+		const interactiveLayer = map.createStaticLayer('Interactive', tileset, 0, 0);
+		const scriptLayer = map.createStaticLayer('Script', tileset, 0, 0);
+		let overheadLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
 
-		if(objects && objects.objects){
-			objects.objects.forEach(
+		// Identify the collision property set in the interactive layer in Tiled
+		interactiveLayer.setCollisionByProperty({ collide: true });
+		// Set up collision detection between the player and interactive layer
+		this.physics.add.collider(this.player, interactiveLayer, this.HitInteractiveLayer.bind(this));
+
+		// Extract objects from the object layer
+		const objectLayer = map.getObjectLayer('Script');
+		// Convert object layer objects to Phaser game objects
+		if(objectLayer && objectLayer.objects){
+			objectLayer.objects.forEach(
 				(object) => {
 					let tmp = this.add.rectangle((object.x+(object.width/2)), (object.y+(object.height/2)), object.width, object.height);
 					tmp.properties = object.properties.reduce(
@@ -80,29 +82,17 @@ export class GameScene extends Phaser.Scene {
 			);
 		}
 
-		let aboveLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
-
-		// Phaser supports multiple cameras, but you can access the default camera like this:
+		// Set up the main (only?) camera
 		const camera = this.cameras.main;
 		camera.startFollow(this.player);
 		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-		// Set up the arrows to control the camera
-		this.cursors = this.input.keyboard.createCursorKeys();
-		// this.controls = new Phaser.Cameras.Controls.FixedKeyControl({
-		//     camera: camera,
-		//     left: cursors.left,
-		//     right: cursors.right,
-		//     up: cursors.up,
-		//     down: cursors.down,
-		//     speed: 0.5
-		// });
-
 		// Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
 		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		
+		// Use the anims manager to set up local sprite animations
 		this.animsManager.create();
 
+		// Set up the dialog plugin
 		this.gzDialog.init();
 
 		// Add a container of hearts to show the player's health
@@ -113,6 +103,7 @@ export class GameScene extends Phaser.Scene {
 
 	update(time, delta) {
 
+		// Close the dialog on spacebar press
 		if( this.gzDialog.visible ){
 			if( this.cursors.space.isDown ){
 				this.gzDialog.display(false);
@@ -148,12 +139,19 @@ export class GameScene extends Phaser.Scene {
 		return true;
 	}
 
-
+	/** Handle collisions with the interactive layer. Tiles with the property `portal` are
+	 * used to transition into new scenes.
+	 */
 	HitInteractiveLayer(player, target){
 		if(target.properties && target.properties.portal && this.portals[target.properties.portal]) 
 			this.scene.start(this.portals[target.properties.portal], {origin:this.scene.key});
 	}
 
+	/**  
+	 * Handle collisions with the script layer. Tiles which have a dialog response are given
+	 * a 'name' property with a value that corresponds to a key in the script object found
+	 * in script.js
+	 */
 	HitScript(player, target){
 		if(target.properties.name && !this.gzDialog.visible){
 			player.anims.stopOnRepeat();

@@ -1,3 +1,8 @@
+/**
+ * The script object contains a list of dialog responses for game characters.
+ * Top level properties reference the character doing the speaking. Child
+ * properties are the key name of the object spoken in response to.
+ */
 export const Script = {
     zeta: {
         saucer: "Can't leave yet.",

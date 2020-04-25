@@ -1,3 +1,7 @@
+/**
+ * This Anims class is tightly coupled to the Game Scene class and used to 
+ * seperate the sprite animation definitions into their own file.
+ */
 export class Anims {
     constructor(scene){
         if(!scene) return;
