@@ -168,6 +168,9 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 		this.graphics.fillStyle(this.windowColor, this.windowAlpha);
 		this.graphics.strokeRoundedRect(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight, 5);
 		this.graphics.fillRoundedRect(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight, 5);
+
+		// Ensure the dialog box renders above everything else
+		this.graphics.setDepth(1000);
 	}
 
 	// Calcuate the position of the text in the dialog window
@@ -183,9 +186,15 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 			y,
 			text,
 			style: {
-				wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 }
+				wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 },
+				fontFamily: 'pressstart',
+				fontSize: '14px',
+				lineSpacing: '12'
 			}
 		}).setScrollFactor(this.scrollFactor);
+
+		// Ensure the dialog text renders above the background
+		this.text.setDepth(1001);
 	}
 
 	// Slowly displays the text in the window to make it appear annimated

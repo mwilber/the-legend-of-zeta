@@ -5,7 +5,7 @@
  */
 export const Script = {
     zeta: {
-        saucer: "Can't leave yet.",
+        saucer: "Can't leave yet. I have a mission to complete.",
         rock: "Ow!",
         labsign: "Hmm. This may be the entrance to the secret lab.",
         sportmodel: "It's just a weather balloon. Nothing to see here.",

@@ -47,4 +47,8 @@ const gameConfig = {
 	]
 };
 
-new Phaser.Game(gameConfig);
+const phaserGame = new Phaser.Game(gameConfig);
+
+phaserGame.global = {
+	playerHp: -1,
+}

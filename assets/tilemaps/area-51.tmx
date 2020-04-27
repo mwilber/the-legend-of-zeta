@@ -3808,7 +3808,7 @@
     <property name="name" value="rock"/>
    </properties>
   </object>
-  <object id="3" x="574.667" y="30.6667" width="162.667" height="130.667">
+  <object id="3" x="574.667" y="102.667" width="162.667" height="58.667">
    <properties>
     <property name="name" value="labsign"/>
    </properties>

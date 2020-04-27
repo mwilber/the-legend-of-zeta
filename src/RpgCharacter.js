@@ -156,9 +156,9 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
      */
     DoHit(source, target){
         target.tint = 0xff0000;
-        target.isHit = target.hp*10;
+        target.isHit = target.hp*5;
         target.hp--;
-        target.body.setVelocity(-(source.x-target.x)*5, -(source.y-target.y)*5);
+        target.body.setVelocity(-(source.x-target.x)*10, -(source.y-target.y)*10);
         source.body.setVelocity(0);
     }
 }

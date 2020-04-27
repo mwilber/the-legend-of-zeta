@@ -26,7 +26,7 @@ export class GameScene extends Phaser.Scene {
 		this.animsManager = new Anims(this);
 	}
 	
-	init(data){}
+	init(data){ }
 
 	preload() {
 		this.load.scenePlugin('gzDialog', GzDialog);
@@ -49,6 +49,9 @@ export class GameScene extends Phaser.Scene {
 			speed: 225
 		});
 
+		// Restore player health from global
+		if(this.game.global.playerHp !== -1) this.player.hp = this.game.global.playerHp;
+		
 		// Load map json from Tiled
 		const map = this.make.tilemap({ key: settings.mapKey });
 		// settings.tiledKey is the name of the tileset in Tiled
@@ -76,11 +79,15 @@ export class GameScene extends Phaser.Scene {
 					);
 					this.physics.world.enable(tmp, 1);
 					this.physics.add.collider(this.player, tmp, this.HitScript, null, this);
-
-					this.add.text((tmp.x), (tmp.y-tmp.height), 'script', { color: '#ffffff', textAlagn: 'center' });
 				}
 			);
 		}
+
+		// Place the player above the tile layers
+		this.player.setDepth(10);
+		// Place the overhead layer above everything else
+		overheadLayer.setDepth(20);
+
 
 		// Set up the main (only?) camera
 		const camera = this.cameras.main;
@@ -96,12 +103,15 @@ export class GameScene extends Phaser.Scene {
 		this.gzDialog.init();
 
 		// Add a container of hearts to show the player's health
-		this.hearts = this.add.container(700, 32).setScrollFactor(0);
+		this.hearts = this.add.container(700, 32).setScrollFactor(0).setDepth(1000);
 		for(let idx=0; idx<this.player.hp; idx++ )
 			this.hearts.add(this.add.image((idx*20), 0, 'heart'));
 	}
 
 	update(time, delta) {
+
+		// Update the global player health
+		this.game.global.playerHp = this.player.hp;
 
 		// Close the dialog on spacebar press
 		if( this.gzDialog.visible ){
@@ -125,13 +135,12 @@ export class GameScene extends Phaser.Scene {
 		this.player.update();
 
 		// End game
-		if(this.player.hp <= 0){
+		if(this.player.hp <= 0 && this.player.isHit <= 0){
 			this.player.destroy();
 			console.log('you dead');
 			this.scene.start('EndScene');
 		}else{
 			if(this.hearts.list.length > this.player.hp){
-				console.log((this.hearts.list.length-1))
 				this.hearts.removeAt(this.hearts.list.length-1, true);
 			}
 		}

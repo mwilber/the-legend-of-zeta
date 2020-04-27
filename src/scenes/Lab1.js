@@ -57,14 +57,7 @@ export class Lab1 extends GameScene {
 			speed: 225
 		});
 
-		this.physics.add.collider(this.player, this.sentry, function(player, target){
-			if(this.player.isHit <= 0){
-				this.player.tint = 0xff0000;
-				this.player.isHit = 10;
-				this.player.body.setVelocity((player.x-target.x)*10,(player.y-target.y)*10);
-			}
-			this.sentry.body.setVelocity(0);
-		}.bind(this));
+		this.physics.add.collider(this.sentry, this.player, this.player.DoHit);
 	}
 
 	update(){

@@ -13,6 +13,10 @@ export class EndScene extends Phaser.Scene {
     }
 
     create() {
+
+        // Reset global player health
+        this.game.global.playerHp = -1;
+
         // Add the background image
         this.splash = this.add.image(400, 300, 'end_splash');
         
