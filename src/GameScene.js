@@ -56,6 +56,11 @@ export class GameScene extends Phaser.Scene {
 		const interactiveLayer = map.createStaticLayer('Interactive', tileset, 0, 0);
 		let overheadLayer = map.createStaticLayer('Overhead', tileset, 0, 0);
 
+		// Identify the collision property set in the interactive layer in Tiled
+		interactiveLayer.setCollisionByProperty({ collide: true });
+		// Set up collision detection between the player and interactive layer
+		this.physics.add.collider(this.player, interactiveLayer);
+
 		// Place the player above the tile layers
 		this.player.setDepth(10);
 		// Place the overhead layer above everything else
