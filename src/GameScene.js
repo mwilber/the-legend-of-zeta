@@ -27,8 +27,8 @@ export class GameScene extends Phaser.Scene {
 	init(data){ }
 
 	preload() {
-		this.load.image("tiles", "assets/images/Area-51.png");
-		this.load.tilemapTiledJSON("map", "assets/tilemaps/area-51.json");
+		this.load.image('tiles', 'assets/images/Area-51.png');
+		this.load.tilemapTiledJSON('map', 'assets/tilemaps/area-51.json');
 		this.animsManager.preload();
 	}
 
