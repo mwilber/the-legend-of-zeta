@@ -17,11 +17,7 @@ import '../app-shell.css';
 import '../styles/main.scss';
 
 import 'phaser';
-import { Area51 } from './scenes/Area51';
-import { Lab1 } from './scenes/Lab1';
-import { Lab2 } from './scenes/Lab2';
-import { EndScene } from './scenes/EndScene';
-import { IntroScene } from './scenes/IntroScene';
+import { GameScene } from './GameScene';
 
 const gameConfig = {
 	type: Phaser.AUTO,
@@ -39,16 +35,8 @@ const gameConfig = {
 		}
 	},
 	scene: [
-		IntroScene,
-		Area51,
-		Lab1,
-		Lab2,
-		EndScene
+		GameScene,
 	]
 };
 
 const phaserGame = new Phaser.Game(gameConfig);
-
-phaserGame.global = {
-	playerHp: -1,
-}
