@@ -60,7 +60,7 @@ export class GameScene extends Phaser.Scene {
 		const backgroundLayer = map.createStaticLayer('Background', tileset, 0, 0);
 		const interactiveLayer = map.createStaticLayer('Interactive', tileset, 0, 0);
 		const scriptLayer = map.createStaticLayer('Script', tileset, 0, 0);
-		let overheadLayer = map.createStaticLayer("Overhead", tileset, 0, 0);
+		let overheadLayer = map.createStaticLayer('Overhead', tileset, 0, 0);
 
 		// Identify the collision property set in the interactive layer in Tiled
 		interactiveLayer.setCollisionByProperty({ collide: true });

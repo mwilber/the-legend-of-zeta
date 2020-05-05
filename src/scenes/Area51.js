@@ -1,4 +1,4 @@
-import { GameScene } from "../GameScene";
+import { GameScene } from '../GameScene';
 import { RpgCharacter } from '../RpgCharacter';
 
 /**
@@ -29,18 +29,18 @@ export class Area51 extends GameScene {
 	}
 
 	preload(){
-		this.load.image("tiles", "assets/images/Area-51.png");
-		this.load.tilemapTiledJSON("map", "assets/tilemaps/area-51.json");
-		this.load.image("saucer", "assets/images/saucer.png");
+		this.load.image('tiles', 'assets/images/Area-51.png');
+		this.load.tilemapTiledJSON('map', 'assets/tilemaps/area-51.json');
+		this.load.image('saucer', 'assets/images/saucer.png');
 
 		super.preload();
 	}
 
 	create(){
 		super.create({
-			tileKey: "tiles",
-			mapKey: "map",
-			tiledKey: "Area-51"
+			tileKey: 'tiles',
+			mapKey: 'map',
+			tiledKey: 'Area-51'
 		});
 
 		this.sentry = new RpgCharacter({
