@@ -39,8 +39,8 @@ const gameConfig = {
 		}
 	},
 	scene: [
-		IntroScene,
 		Area51,
+		IntroScene,
 		Lab1,
 		Lab2,
 		EndScene

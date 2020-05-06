@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { GzDialog } from './plugins/GzDialog';
-import { Script } from './script';
 import { RpgCharacter } from './RpgCharacter';
 import { Anims } from './anims';
 
@@ -30,6 +29,7 @@ export class GameScene extends Phaser.Scene {
 
 	preload() {
 		this.load.scenePlugin('gzDialog', GzDialog);
+		this.load.json('scriptdata', 'assets/data/script.json');
 		this.load.image('heart', 'assets/images/heart_full.png');
 		this.animsManager.preload();
 	}
@@ -102,6 +102,9 @@ export class GameScene extends Phaser.Scene {
 		// Set up the dialog plugin
 		this.gzDialog.init();
 
+		// Get script data preloaded from script.json
+		this.script = this.cache.json.get('scriptdata');
+
 		// Add a container of hearts to show the player's health
 		this.hearts = this.add.container(700, 32).setScrollFactor(0).setDepth(1000);
 		for(let idx=0; idx<this.player.hp; idx++ )
@@ -164,7 +167,7 @@ export class GameScene extends Phaser.Scene {
 	HitScript(player, target){
 		if(target.properties.name && !this.gzDialog.visible){
 			player.anims.stopOnRepeat();
-			this.gzDialog.setText(Script[player.name][target.properties.name], true);
+			this.gzDialog.setText(this.script[player.name][target.properties.name], true);
 		}
 	}
 	
