@@ -22,6 +22,7 @@ import { Lab1 } from './scenes/Lab1';
 import { Lab2 } from './scenes/Lab2';
 import { EndScene } from './scenes/EndScene';
 import { IntroScene } from './scenes/IntroScene';
+import { GzRpgCharacterPlugin } from './RpgCharacter';
 
 const gameConfig = {
 	type: Phaser.AUTO,
@@ -38,6 +39,11 @@ const gameConfig = {
 			debug: false
 		}
 	},
+	plugins: {
+        global: [
+            { key: 'GzRpgCharacterPlugin', plugin: GzRpgCharacterPlugin, start: true }
+        ]
+    },
 	scene: [
 		Area51,
 		IntroScene,

@@ -162,3 +162,19 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
         source.body.setVelocity(0);
     }
 }
+
+export class GzRpgCharacterPlugin extends Phaser.Plugins.BasePlugin {
+
+    constructor(pluginManager){
+        super(pluginManager);
+
+        //  Register our new Game Object type
+        pluginManager.registerGameObject('rpgcharacter', this.createRpgCharacter);
+    }
+
+    createRpgCharacter(params){
+        //return this.displayList.add(new RpgCharacter({scene: this.scene, ...params}));
+        return new RpgCharacter({scene: this.scene, ...params});
+    }
+
+}

@@ -40,8 +40,7 @@ export class GameScene extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 		// Set up the player character
-		window.player = this.player = new RpgCharacter({
-			scene: this,
+		window.player = this.player = this.add.rpgcharacter({
 			x: this.spawnPoint.x,
 			y: this.spawnPoint.y,
 			name: 'zeta',
