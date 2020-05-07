@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import { GzDialog } from './plugins/GzDialog';
 import { Anims } from './anims';
 
 /**
@@ -27,7 +26,6 @@ export class GameScene extends Phaser.Scene {
 	init(data){ }
 
 	preload() {
-		this.load.scenePlugin('gzDialog', GzDialog);
 		this.load.json('scriptdata', 'assets/data/script.json');
 		this.load.image('heart', 'assets/images/heart_full.png');
 		this.animsManager.preload();
@@ -97,9 +95,6 @@ export class GameScene extends Phaser.Scene {
 		// Use the anims manager to set up local sprite animations
 		this.animsManager.create();
 
-		// Set up the dialog plugin
-		this.gzDialog.init();
-
 		// Get script data preloaded from script.json
 		this.script = this.cache.json.get('scriptdata');
 
@@ -165,7 +160,7 @@ export class GameScene extends Phaser.Scene {
 	HitScript(player, target){
 		if(target.properties.name && !this.gzDialog.visible){
 			player.anims.stopOnRepeat();
-			this.gzDialog.setText(this.script[player.name][target.properties.name], true);
+			this.gzDialog.setText(this.script[player.name][target.properties.name]);
 		}
 	}
 	

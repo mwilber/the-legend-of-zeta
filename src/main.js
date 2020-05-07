@@ -23,6 +23,7 @@ import { Lab2 } from './scenes/Lab2';
 import { EndScene } from './scenes/EndScene';
 import { IntroScene } from './scenes/IntroScene';
 import { GzRpgCharacterPlugin } from './plugins/GzRpgCharacter';
+import { GzDialog } from './plugins/GzDialog';
 
 const gameConfig = {
 	type: Phaser.AUTO,
@@ -42,11 +43,14 @@ const gameConfig = {
 	plugins: {
         global: [
             { key: 'GzRpgCharacterPlugin', plugin: GzRpgCharacterPlugin, start: true }
+		],
+		scene: [
+            { key: 'gzDialog', plugin: GzDialog, mapping: 'gzDialog' }
         ]
     },
 	scene: [
-		Area51,
 		IntroScene,
+		Area51,
 		Lab1,
 		Lab2,
 		EndScene
