@@ -45,6 +45,8 @@ export class GameScene extends Phaser.Scene {
 			speed: 225
 		});
 
+		this.player.setTexture("zeta", "zeta-front");
+
 		// Restore player health from global
 		if(this.game.global.playerHp !== -1) this.player.hp = this.game.global.playerHp;
 		
