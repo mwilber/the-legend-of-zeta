@@ -1,5 +1,4 @@
 import { GameScene } from '../GameScene';
-import { RpgCharacter } from '../RpgCharacter';
 
 /**
  * Lab 2 Level scene

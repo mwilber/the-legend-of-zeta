@@ -1,5 +1,4 @@
 import { GameScene } from '../GameScene';
-import { RpgCharacter } from '../RpgCharacter';
 
 /**
  * Lab 1 Level scene
@@ -43,8 +42,7 @@ export class Lab1 extends GameScene {
 			tiledKey: 'seckrit-lab'
         });
 
-		this.sentry = new RpgCharacter({
-			scene: this,
+		this.sentry = this.add.rpgcharacter({
 			x: this.securityPoint.x,
 			y: this.securityPoint.y,
 			image: 'security',

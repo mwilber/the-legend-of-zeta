@@ -22,7 +22,7 @@ import { Lab1 } from './scenes/Lab1';
 import { Lab2 } from './scenes/Lab2';
 import { EndScene } from './scenes/EndScene';
 import { IntroScene } from './scenes/IntroScene';
-import { GzRpgCharacterPlugin } from './RpgCharacter';
+import { GzRpgCharacterPlugin } from './plugins/GzRpgCharacter';
 
 const gameConfig = {
 	type: Phaser.AUTO,

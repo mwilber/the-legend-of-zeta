@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { GzDialog } from './plugins/GzDialog';
-import { RpgCharacter } from './RpgCharacter';
 import { Anims } from './anims';
 
 /**

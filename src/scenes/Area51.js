@@ -1,5 +1,4 @@
 import { GameScene } from '../GameScene';
-import { RpgCharacter } from '../RpgCharacter';
 
 /**
  * Area 51 Level scene
@@ -43,8 +42,7 @@ export class Area51 extends GameScene {
 			tiledKey: 'Area-51'
 		});
 
-		this.sentry = new RpgCharacter({
-			scene: this,
+		this.sentry = this.add.rpgcharacter({
 			x: this.securityPoint.x,
 			y: this.securityPoint.y,
 			image: 'security',
