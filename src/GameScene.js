@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import { RpgCharacter } from './RpgCharacter';
 import { Anims } from './anims';
 
 /**
@@ -38,35 +37,17 @@ export class GameScene extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 		// Set up the player character
-		window.player = this.player = new RpgCharacter({
-			scene: this,
+		window.player = this.player = this.add.rpgcharacter({
 			x: this.spawnPoint.x,
 			y: this.spawnPoint.y,
 			name: 'zeta',
 			image: 'zeta',
 			speed: 225
 		});
-		
-		// Load map json from Tiled
-		const map = this.make.tilemap({ key: 'map' });
-		// settings.tiledKey is the name of the tileset in Tiled
-		const tileset = map.addTilesetImage('Area-51', 'tiles');
-		// layer key is the layer name set in Tiled
-		const backgroundLayer = map.createStaticLayer('Background', tileset, 0, 0);
-		const interactiveLayer = map.createStaticLayer('Interactive', tileset, 0, 0);
-		let overheadLayer = map.createStaticLayer('Overhead', tileset, 0, 0);
-
-		// Place the player above the tile layers
-		this.player.setDepth(10);
-		// Place the overhead layer above everything else
-		overheadLayer.setDepth(20);
 
 		// Set up the main (only?) camera
 		const camera = this.cameras.main;
 		camera.startFollow(this.player);
-		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-		// Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
-		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		
 		// Use the anims manager to set up local sprite animations
 		this.animsManager.create();
@@ -91,5 +72,5 @@ export class GameScene extends Phaser.Scene {
 
 		return true;
 	}
-	
+
 }
