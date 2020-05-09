@@ -10,16 +10,11 @@ export class Anims {
     }
 
     preload(){
-        this.scene.load.atlas("zeta", "assets/images/zeta_walk.png", "assets/sprites/atlas.json");
+        this.scene.load.atlas("zeta", "assets/sprites/zeta_walk.png", "assets/sprites/zeta_walk.json");
         this.scene.load.spritesheet('security', 
             'assets/sprites/security.png',
             { frameWidth: 36, frameHeight: 42 }
 		);
-		
-		this.scene.load.spritesheet('blue-lightning', 
-            'assets/sprites/blue-lightning.png',
-            { frameWidth: 16, frameHeight: 32 }
-        );
     }
 
     create(){
@@ -77,12 +72,5 @@ export class Anims {
             frameRate: 15,
             repeat: -1
 		});
-		
-		anims.create({
-            key: 'lightning-bolt',
-            frames: anims.generateFrameNumbers('blue-lightning', { start: 0, end: 3 }),
-            frameRate: 20,
-            repeat: -1
-        });
     }
 }

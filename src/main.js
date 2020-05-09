@@ -34,6 +34,14 @@ const gameConfig = {
 			debug: false
 		}
 	},
+	plugins: {
+        global: [
+            { key: 'GzRpgCharacterPlugin', plugin: GzRpgCharacterPlugin, start: true }
+		],
+		scene: [
+            { key: 'gzDialog', plugin: GzDialog, mapping: 'gzDialog' }
+        ]
+    },
 	scene: [
 		GameScene,
 	]
