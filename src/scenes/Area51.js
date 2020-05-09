@@ -28,7 +28,7 @@ export class Area51 extends GameScene {
 	}
 
 	preload(){
-		this.load.image('tiles', 'assets/images/Area-51.png');
+		this.load.image('tiles', 'assets/tilemaps/Area-51.png');
 		this.load.tilemapTiledJSON('map', 'assets/tilemaps/area-51.json');
 		this.load.image('saucer', 'assets/images/saucer.png');
 

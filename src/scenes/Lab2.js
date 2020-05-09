@@ -18,7 +18,7 @@ export class Lab2 extends GameScene {
 	}
 
 	preload(){
-		this.load.image('seckrit-lab-tiles', 'assets/images/scifitiles-sheet.png');
+		this.load.image('seckrit-lab-tiles', 'assets/tilemaps/scifitiles-sheet.png');
         this.load.tilemapTiledJSON('lab-2', 'assets/tilemaps/lab-2.json');
 
 		super.preload();
