@@ -1,15 +1,32 @@
-# ![The Legend of Zeta Logo](https://www.greenzeta.com/android-icon-72x72.png) the-legend-of-zeta
+# ![The Legend of Zeta Logo](https://www.greenzeta.com/wp-content/uploads/2020/03/TheLegendOfZeta-150x150.png) the-legend-of-zeta
 ## Source code for the presentation: Tile maps and world building with the Phaser framework.
 
-The Legend of Zeta is a [Phaser3](http://phaser.io) clone of the classic nintendo game The legend of Zelda. Written in ES6 syntax javascript and using a webpack workflow. 
+The Legend of Zeta is a [Phaser3](http://phaser.io) clone of the original nes game The Legend of Zelda.
 
 Built with the [gz-webpack-boilerplate](https://github.com/mwilber/gz-webpack-boilerplate)!
 
-## Requirements
-All you need is <b>node.js</b> pre-installed and you’re good to go.
+![The Legend of Zeta ScreenShot](https://www.greenzeta.com/wp-content/uploads/2020/04/22-speed-run.png)
+
+## Table of contents
+- [The Presentation](#presentation)
+- [Setup](#setup)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Webpack](#webpack)
+
+## Presentation
+
+Slides from the presentation are available on [slides.com](https://slides.com/greenzeta/phaser-2#/). To follow development of the game as presented, look at the sequential numbered branches named beginning with [step-01](https://github.com/mwilber/the-legend-of-zeta/tree/step-01). 
+
+![Presentation ScreenShot](https://www.greenzeta.com/wp-content/uploads/2020/05/Screen-Shot-2020-05-07-at-9.37.19-PM.png)
 
 ## Setup
-Install dev dependencies
+Clone this repo and enter the project directory:
+```sh
+$ git clone https://github.com/mwilber/the-legend-of-zeta
+$ cd the-legend-of-zeta
+```
+Install dependencies:
 ```sh
 $ npm install
 ```

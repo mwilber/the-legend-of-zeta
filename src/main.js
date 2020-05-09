@@ -18,6 +18,7 @@ import '../styles/main.scss';
 
 import 'phaser';
 import { GameScene } from './GameScene';
+import { GzRpgCharacterPlugin } from './plugins/GzRpgCharacter';
 
 const gameConfig = {
 	type: Phaser.AUTO,
@@ -34,6 +35,11 @@ const gameConfig = {
 			debug: false
 		}
 	},
+	plugins: {
+        global: [
+            { key: 'GzRpgCharacterPlugin', plugin: GzRpgCharacterPlugin, start: true }
+		]
+    },
 	scene: [
 		GameScene,
 	]
