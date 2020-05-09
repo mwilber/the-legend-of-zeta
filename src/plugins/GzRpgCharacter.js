@@ -173,7 +173,6 @@ export class GzRpgCharacterPlugin extends Phaser.Plugins.BasePlugin {
     }
 
     createRpgCharacter(params){
-        //return this.displayList.add(new RpgCharacter({scene: this.scene, ...params}));
         return new RpgCharacter({scene: this.scene, ...params});
     }
 
