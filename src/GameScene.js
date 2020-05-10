@@ -71,6 +71,8 @@ export class GameScene extends Phaser.Scene {
 		// Use the anims manager to set up local sprite animations
 		this.animsManager.create();
 
+		this.gzDialog.setText('This is a test. Hello World!');
+
 	}
 
 	update(time, delta) {

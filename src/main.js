@@ -19,6 +19,7 @@ import '../styles/main.scss';
 import 'phaser';
 import { GameScene } from './GameScene';
 import { GzRpgCharacterPlugin } from './plugins/GzRpgCharacter';
+import { GzDialog } from './plugins/GzDialog';
 
 const gameConfig = {
 	type: Phaser.AUTO,
@@ -36,10 +37,13 @@ const gameConfig = {
 		}
 	},
 	plugins: {
-        global: [
-            { key: 'GzRpgCharacterPlugin', plugin: GzRpgCharacterPlugin, start: true }
+		global: [
+			{ key: 'GzRpgCharacterPlugin', plugin: GzRpgCharacterPlugin, start: true }
+		],
+		scene: [
+			{ key: 'gzDialog', plugin: GzDialog, mapping: 'gzDialog' }
 		]
-    },
+	},
 	scene: [
 		GameScene,
 	]
