@@ -2,7 +2,7 @@
 <map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="4">
  <tileset firstgid="1" name="Area-51" tilewidth="32" tileheight="32" spacing="2" margin="1" tilecount="725" columns="24">
   <grid orientation="orthogonal" width="16" height="16"/>
-  <image source="../images/Area-51.png" width="816" height="952"/>
+  <image source="Area-51.png" width="816" height="952"/>
   <terraintypes>
    <terrain name="Sand" tile="125"/>
    <terrain name="Pavement" tile="173"/>

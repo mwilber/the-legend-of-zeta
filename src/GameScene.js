@@ -26,6 +26,7 @@ export class GameScene extends Phaser.Scene {
 	init(data){ }
 
 	preload() {
+		this.load.json('scriptdata', 'assets/data/script.json');
 		this.load.image('tiles', 'assets/tilemaps/Area-51.png');
 		this.load.tilemapTiledJSON('map', 'assets/tilemaps/area-51.json');
 		this.animsManager.preload();
@@ -59,6 +60,22 @@ export class GameScene extends Phaser.Scene {
 		// Set up collision detection between the player and interactive layer
 		this.physics.add.collider(this.player, interactiveLayer);
 
+		// Extract objects from the object layer
+		const objectLayer = map.getObjectLayer('Script');
+		// Convert object layer objects to Phaser game objects
+		if(objectLayer && objectLayer.objects){
+			objectLayer.objects.forEach(
+				(object) => {
+					let tmp = this.add.rectangle((object.x+(object.width/2)), (object.y+(object.height/2)), object.width, object.height);
+					tmp.properties = object.properties.reduce(
+						(obj, item) => Object.assign(obj, { [item.name]: item.value }), {}
+					);
+					this.physics.world.enable(tmp, 1);
+					this.physics.add.collider(this.player, tmp, this.HitScript, null, this);
+				}
+			);
+		}
+
 		// Place the player above the tile layers
 		this.player.setDepth(10);
 		// Place the overhead layer above everything else
@@ -71,12 +88,20 @@ export class GameScene extends Phaser.Scene {
 		// Use the anims manager to set up local sprite animations
 		this.animsManager.create();
 
-		this.gzDialog.setText('This is a test. Hello World!');
+		// Get script data preloaded from script.json
+		this.script = this.cache.json.get('scriptdata');
 
 	}
 
 	update(time, delta) {
 
+		// Close the dialog on spacebar press
+		if( this.gzDialog.visible ){
+			if( this.cursors.space.isDown ){
+				this.gzDialog.display(false);
+			}
+			return false;
+		}
 		// Horizontal movement
 		if (this.cursors.left.isDown)
 			this.player.SetInstruction({action: 'walk', option: 'left'});
@@ -92,6 +117,18 @@ export class GameScene extends Phaser.Scene {
 		this.player.update();
 
 		return true;
+	}
+
+	/**  
+	 * Handle collisions with the script layer. Tiles which have a dialog response are given
+	 * a 'name' property with a value that corresponds to a key in the script object found
+	 * in script.js
+	 */
+	HitScript(player, target){
+		if(target.properties.name && !this.gzDialog.visible){
+			player.anims.stopOnRepeat();
+			this.gzDialog.setText(this.script[player.name][target.properties.name]);
+		}
 	}
 
 }
