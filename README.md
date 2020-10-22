@@ -1,4 +1,4 @@
-# ![The Legend of Zeta Logo](https://www.greenzeta.com/wp-content/uploads/2020/03/TheLegendOfZeta-150x150.png) the-legend-of-zeta
+# ![The Legend of Zeta Logo](https://www.greenzeta.com/wp-content/uploads/2020/06/TheLegendOfZeta-150x150.png) the-legend-of-zeta
 ## Source code for the presentation: Tile maps and world building with the Phaser framework.
 
 The Legend of Zeta is a [Phaser3](http://phaser.io) clone of the original nes game The Legend of Zelda.
