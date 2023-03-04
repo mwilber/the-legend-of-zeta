@@ -43,7 +43,7 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
             this.DoInstructions();
             // Stop animations when not moving
             if(this.body && this.body.velocity.x == 0 && this.body.velocity.y == 0){ 
-                this.anims.stopOnRepeat()
+                this.anims.stop();
             }
         }
         
@@ -54,7 +54,7 @@ export class RpgCharacter extends Phaser.GameObjects.Sprite {
      */
     DoHalt(){
         this.body.setVelocity(0);
-        this.anims.stopOnRepeat();
+        this.anims.stopAfterRepeat();
     }
 
     /**

@@ -29,13 +29,13 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 	//  Called when the Plugin is booted by the PluginManager.
 	boot() {
 		// Create the dialog window
-		this._drawBackground();
-		this._drawText();
-		
-		this.display(false);
+		this._initGraphics();
 		
 		let eventEmitter = this.systems.events;
+		// Cleanup when a new scene loads
 		eventEmitter.on('shutdown', this.shutdown, this);
+		// Rebuild graphics when a scene loads
+		eventEmitter.on('start', () => this._initGraphics(), this);
 	}
 
 	//  Called when a Scene shuts down, it may then come back again later (which will invoke the 'start' event) but should be considered dormant.
@@ -82,6 +82,13 @@ export class GzDialog extends Phaser.Plugins.ScenePlugin {
 			callbackScope: this,
 			loop: true
 		});
+	}
+
+	_initGraphics() {
+		this._drawBackground();
+		this._drawText();
+		
+		this.display(false);
 	}
 	
 	// Calculates where to place the dialog window based on the game size
