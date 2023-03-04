@@ -161,7 +161,7 @@ export class GameScene extends Phaser.Scene {
 	 */
 	HitScript(player, target){
 		if(target.properties.name && !this.gzDialog.visible){
-			player.anims.stopOnRepeat();
+			player.anims.stopAfterRepeat(1);
 			this.gzDialog.setText(this.script[player.name][target.properties.name]);
 		}
 	}
