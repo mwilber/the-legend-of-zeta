@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const webpackConfig = require('./webpack.config.common');
 
 module.exports = merge(webpackConfig, {

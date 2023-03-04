@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CssPlugin = require('extract-css-chunks-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const htmlMetadata = {
     domain: 'greenzeta.com',
@@ -17,6 +18,7 @@ const dirNode = 'node_modules';
 const dirApp = path.join(__dirname, 'src');
 const dirSass = path.join(__dirname, 'styles');
 const dirAssets = path.join(__dirname, 'assets');
+const webManifest = path.join(__dirname, 'manifest.json');
 const appShell = path.join(__dirname, 'app-shell.css');
 const serviceWorker = path.join(__dirname, 'service-worker.js');
 
@@ -48,7 +50,17 @@ module.exports = {
         new CssPlugin({
 			filename: './app-shell.css'
         }),
-        
+        new CopyPlugin({
+            patterns: [
+			{ 
+				from: dirAssets,
+				to: path.resolve(__dirname, 'dist', 'assets'),
+            },
+            { 
+				from: webManifest,
+				to: path.resolve(__dirname, 'dist'),
+			}
+		]}),
     ],
     module: {
         rules: [
@@ -78,7 +90,9 @@ module.exports = {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true,
-                            includePaths: [dirSass]
+                            sassOptions: {
+                                includePaths: [dirSass]
+                            }
                         }
                     }
                 ]
@@ -96,10 +110,12 @@ module.exports = {
             // IMAGES
             {
                 test: /\.(jpe?g|png|gif|svg|ttf)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]'
-                }
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]'
+                    }
+                }]
             }
         ]
     }
