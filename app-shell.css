@@ -2,11 +2,6 @@
 *   Minimum styling for PWA app shell
 */
 
-@font-face { 
-    font-family: "pressstart"; 
-    src: url("assets/font/PressStart2P.ttf") format("truetype"); 
-}
-
 h1{
     color: #000;
 }

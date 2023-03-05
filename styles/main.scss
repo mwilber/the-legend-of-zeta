@@ -1,5 +1,10 @@
 @import 'normalize';
 
+@font-face { 
+    font-family: "pressstart"; 
+    src: url("../assets/font/PressStart2P.ttf") format("truetype"); 
+}
+
 html, body{
 	font-family: sans-serif;
 	background: #7bb951;
